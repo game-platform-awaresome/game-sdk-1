@@ -70,8 +70,6 @@ class WechatService implements PayInterface
      */
     protected function generatePayData(string $itemName, string $orderId, $totalFee)
     {
-        Log::channel('sdk')->info($totalFee);
-        Log::channel('sdk')->info((int)($totalFee * 100));
         return [
             'body' => '游戏充值-' . $itemName,
             'out_trade_no' => $orderId,

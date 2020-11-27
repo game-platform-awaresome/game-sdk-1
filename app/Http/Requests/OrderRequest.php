@@ -26,7 +26,6 @@ class OrderRequest extends FormRequest
                     'order_type' => 'required',
                     'cp_order_no' => 'required|string',
                     'extra_data' => 'string',
-                    'sdk_version' => 'string',
                     'channel_id' => 'string',
                     'sub_chan_merchant' => 'string',
                 ];

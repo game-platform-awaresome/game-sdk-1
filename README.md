@@ -3,7 +3,7 @@
 ### 环境
 
 - PHP ^7.2.5
-    - 扩展 phpredis, opcache
+    - 扩展 phpredis, opcache, swoole
 - Redis ^5.0
 - Mysql ^5.7
 - Composer

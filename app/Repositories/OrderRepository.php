@@ -203,7 +203,7 @@ class OrderRepository
                 "os" => $data['os'],
                 "ip" => $data['ip'],
                 "cp_order_no" => $data['cp_order_no'],
-                "sdk_version" => $data['sdk_version'] ?? '2.0',
+                "sdk_version" => '2.0',
                 "extra_data" => $data['extra_data'] ?? null,
                 "channel_id" => $data['channel_id'] ?? null,
                 "sub_chan_merchant" => $data['sub_chan_merchant'] ?? null,

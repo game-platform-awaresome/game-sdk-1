@@ -68,8 +68,6 @@ class CheckSdkSignature
         });
         $str = implode('&', $param);
         // 比较签名
-        Log::channel('sdk')->info('Str: ' . $str);
-        Log::channel('sdk')->info('Sign: ' . md5($str));
         if (md5($str) != $sign) {
             throw new RenderException(Code::SIGNATURE_FAIL, 'Signature Fail');
         }
