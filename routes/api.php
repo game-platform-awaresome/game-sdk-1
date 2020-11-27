@@ -26,7 +26,7 @@ Route::middleware(['log.pay'])->group(function () {
 Route::middleware(['log.sdk', 'check.sdk.param', 'check.sdk.signature', 'throttle:60,1'])->group(function () {
     // Token刷新
     // 比其余SDK接口多一个Token校验中间件
-    Route::middleware('auth.token')->post('token/refresh', 'AccountController@tokenRefresh')
+    Route::middleware('auth.token')->post('tokenRefresh', 'AccountController@tokenRefresh')
         ->name('api.token.refresh');
     // 请求短信验证码发送
     Route::post('getValidationCode', 'SmsController@getValidationCode')
