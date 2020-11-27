@@ -24,9 +24,9 @@ class CheckSdkSignature
     public function handle($request, Closure $next)
     {
         // 时间过期检查
-//        $this->checkTimeExpire($request->all());
+        $this->checkTimeExpire($request->all());
         // 签名校验
-//        $this->checkSignature($request->all());
+        $this->checkSignature($request->all());
 
         return $next($request);
     }
