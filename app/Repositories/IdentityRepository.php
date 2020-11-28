@@ -47,12 +47,12 @@ class IdentityRepository
      * 根据account_id、身份证号码和名字
      * 直接数据库查询 ，如果为空，意味着不匹配
      *
-     * @param string $accountId
+     * @param int $accountId
      * @param string $idNumber
      * @param string $idName
      * @return bool
      */
-    public function isIdNumberAndIdNameExistByAccountId(string $accountId, string $idNumber, string $idName)
+    public function isIdNumberAndIdNameExistByAccountId(int $accountId, string $idNumber, string $idName)
     {
         return $this->model->where([
             'account_id' => $accountId,

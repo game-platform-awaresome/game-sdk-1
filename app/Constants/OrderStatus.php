@@ -11,8 +11,8 @@ class OrderStatus
     const CANCEL_PAY = 3;         // 取消订单
     const PAY_FAIL = 4;           // 支付失败
     const DELIVER_SUCCESS = 5;    // 发货成功
-    const CHECK_FAIL = 9;         // 校验失败
-    const DELIVER_FAIL = -1;      // 发货失败
+    const CHECK_FAIL = 9;         // 金额校验失败
+    const DELIVER_FAIL = 0;       // 发货失败
 
     const MSG = [
         self::INIT => '订单初始化',

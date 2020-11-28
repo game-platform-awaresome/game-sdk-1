@@ -157,7 +157,7 @@ class AccountService
     public function checkOldIdentityMatch(array $data)
     {
         $accountId = $this->accountRepository->getIdByOpenId($data['open_id']);
-        if ($this->identityRepository->isIdNumberAndIdNameExistByAccountId($accountId, $data['old_id_number'], $data['old_id_name'])) {
+        if (!$this->identityRepository->isIdNumberAndIdNameExistByAccountId($accountId, $data['old_id_number'], $data['old_id_name'])) {
             Log::channel('sdk')->info('旧身份证信息与数据库不匹配');
             throw new RenderException(Code::ID_INFO_DOES_NOT_MATCH, 'ID info does not match');
         }
