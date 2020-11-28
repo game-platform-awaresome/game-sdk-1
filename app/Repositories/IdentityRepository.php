@@ -56,8 +56,8 @@ class IdentityRepository
     {
         return $this->model->where([
             'account_id' => $accountId,
-            'idNumber' => CryptTool::encrypt($idNumber),
-            'idName' => CryptTool::encrypt($idName),
+            'id_number' => CryptTool::encrypt($idNumber),
+            'id_name' => CryptTool::encrypt($idName),
         ])->get()->isNotEmpty();
     }
 
