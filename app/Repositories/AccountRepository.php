@@ -82,7 +82,7 @@ class AccountRepository
      * @return string
      * @throws RenderException
      */
-    public function getAccountIdByOpenId(string $openId)
+    public function getIdByOpenId(string $openId)
     {
         try {
             return $this->model->where('open_id', $openId)->firstOrFail('id')->id;

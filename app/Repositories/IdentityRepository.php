@@ -27,7 +27,7 @@ class IdentityRepository
 
     /**
      * 根据account_id获取实名信息
-     * 用于登录的信息收集、身份证取出比对
+     * 用于登录的信息收集
      *
      * @param int $accountId
      * @return Identity|bool|\Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder
@@ -43,7 +43,8 @@ class IdentityRepository
     }
 
     /**
-     * 判断旧身份证是否存
+     * 根据account_id获取身份证号码和名字
+     * 身份证取出比对
      *
      * @param string $accountId
      * @return array|null

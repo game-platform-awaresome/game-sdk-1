@@ -145,8 +145,8 @@ class TokenService
             'user_type' => $account['user_type'],
             'open_id' => $account['open_id'],
             'uuid' => $account['uuid'] ?? '',
-            'id_number' => isset($identity['id_number']) ? substr_replace($identity['id_number'],'***********',3,11) : '',
-            'id_name' => isset($identity['id_name']) ? StringTool::idNamesReplace($identity['id_name']) : '',
+            'id_number' => isset($identity['id_number']) ? StringTool::idNumberReplace($identity['id_number']) : '',
+            'id_name' => isset($identity['id_name']) ? StringTool::idNameReplace($identity['id_name']) : '',
             'birthday' => $identity['birthday'] ?? '',
             'age' => $identity['age'] ?? -1
         ];

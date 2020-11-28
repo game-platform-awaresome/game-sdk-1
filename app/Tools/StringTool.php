@@ -36,15 +36,24 @@ class StringTool
     }
 
     /**
+     * @param string $idNumber
+     * @return string
+     */
+    public static function idNumberReplace(string $idNumber)
+    {
+        return substr_replace($idNumber,'***********',3,11);
+    }
+
+    /**
      * @param string $idName
      * @return string
      */
-    public static function idNamesReplace(string $idName)
+    public static function idNameReplace(string $idName)
     {
         $strLen = mb_strlen($idName, 'utf-8');
         $firstStr = mb_substr($idName, 0, 1, 'utf-8');
         $lastStr = mb_substr($idName, -1, 1, 'utf-8');
 
-        return $strLen == 2 ? $firstStr . str_repeat('*', mb_strlen($username, 'utf-8') - 1) : $firstStr . str_repeat("*", $strLen - 2) . $lastStr;
+        return $strLen == 2 ? $firstStr . str_repeat('*', mb_strlen($idName, 'utf-8') - 1) : $firstStr . str_repeat("*", $strLen - 2) . $lastStr;
     }
 }

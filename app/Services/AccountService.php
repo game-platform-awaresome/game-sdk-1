@@ -135,7 +135,7 @@ class AccountService
         if (!HttpTool::identifyTwoFactor($this->identifyUrl, $data)) {
             throw new RenderException(Code::IDENTIFY_FAIL, 'Identity Fail');
         }
-        $accountId = $this->accountRepository->getAccountIdByOpenId($data['open_id']);
+        $accountId = $this->accountRepository->getIdByOpenId($data['open_id']);
         return $this->identityRepository->identity($accountId, $data);
     }
 
@@ -156,7 +156,7 @@ class AccountService
      */
     public function checkOldIdentityMatch(array $data)
     {
-        $accountId = $this->accountRepository->getAccountIdByOpenId($data['open_id']);
+        $accountId = $this->accountRepository->getIdByOpenId($data['open_id']);
         $idInfo = $this->identityRepository->getIdNumberAndIdNameByAccountId($accountId);
         if ($idInfo['id_number'] != $data['old_id_number'] || $idInfo['id_name'] != $data['old_id_name']) {
             Log::channel('sdk')->info('旧身份证信息与数据库不匹配');
