@@ -6,7 +6,7 @@
     - 扩展 phpredis, opcache, swoole
 - Redis ^5.0
 - Mysql ^5.7
-- Composer
+- Composer ^1.x
 
 ### 部署
 
@@ -14,10 +14,11 @@
 2. 线上`composer install --no-dev` 本地`composer install`
 3. 在`composer install`过程中会要求解除禁用函数，根据提示解除即可   
 4. `cp .env.examle .env`
-5. 填写数据库连接参数
-6. 填写Redis连接参数
-7. 填写APP_URL即IP+PORT，如果有负载均衡和域名，就使用域名
-8. 执行数据库迁移
+5. 创建数据库，数据库名：sdk
+6. 填写数据库连接参数
+7. 填写Redis连接参数
+8. 填写APP_URL即IP+PORT，如果有负载均衡和域名，就使用域名
+9. 执行数据库迁移
     `php artisan migrate --seed`
 
 ### 代码架构
