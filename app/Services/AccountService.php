@@ -64,7 +64,7 @@ class AccountService
     public function accountRegister(array $data)
     {
         $data['open_id'] = $this->createOpenId();
-        $data['name'] = 'xlcw-' . time();
+        $data['name'] = '用户' . time();
         $data['user_type'] = UserType::User;
 
         $this->accountRepository->createAccount($data);
@@ -81,7 +81,7 @@ class AccountService
     {
         if (!$this->accountRepository->isUuidExist($data['uuid'])) {
             $data['phone'] = 00000000000;
-            $data['name'] = 'xlcw-' . time();
+            $data['name'] = '用户' . time();
             $data['open_id'] = $this->createOpenId();
             $data['password'] = StringTool::randomKey(10);
             $data['user_type'] = UserType::Visitor;
@@ -157,8 +157,7 @@ class AccountService
     public function checkOldIdentityMatch(array $data)
     {
         $accountId = $this->accountRepository->getIdByOpenId($data['open_id']);
-        $idInfo = $this->identityRepository->getIdNumberAndIdNameByAccountId($accountId);
-        if ($idInfo['id_number'] != $data['old_id_number'] || $idInfo['id_name'] != $data['old_id_name']) {
+        if ($this->identityRepository->isIdNumberAndIdNameExistByAccountId($accountId, $data['old_id_number'], $data['old_id_name'])) {
             Log::channel('sdk')->info('旧身份证信息与数据库不匹配');
             throw new RenderException(Code::ID_INFO_DOES_NOT_MATCH, 'ID info does not match');
         }

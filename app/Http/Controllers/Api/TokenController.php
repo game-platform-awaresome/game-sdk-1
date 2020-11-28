@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\TokenRequest;
-use Illuminate\Http\Request;
 use App\Services\TokenService;
 use Illuminate\Support\Facades\Log;
 

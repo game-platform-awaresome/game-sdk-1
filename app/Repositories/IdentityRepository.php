@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Exceptions\Code;
 use App\Models\Identity;
 use App\Exceptions\RenderException;
+use App\Tools\CryptTool;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Crypt;
@@ -43,32 +44,32 @@ class IdentityRepository
     }
 
     /**
-     * 根据account_id获取身份证号码和名字
-     * 身份证取出比对
+     * 根据account_id、身份证号码和名字
+     * 直接数据库查询 ，如果为空，意味着不匹配
      *
      * @param string $accountId
-     * @return array|null
-     * @throws RenderException
+     * @param string $idNumber
+     * @param string $idName
+     * @return bool
      */
-    public function getIdNumberAndIdNameByAccountId(string $accountId)
+    public function isIdNumberAndIdNameExistByAccountId(string $accountId, string $idNumber, string $idName)
     {
-        try {
-            return $this->model->where('account_id', $accountId)->firstOrFail(['id_number', 'id_name'])->toArray();
-        } catch (ModelNotFoundException $exception) {
-            Log::channel('sdk')->info('未实名');
-            throw new RenderException(Code::ID_INFO_DOES_NOT_EXIST, 'ID info does not exist');
-        }
+        return $this->model->where([
+            'account_id' => $accountId,
+            'idNumber' => CryptTool::encrypt($idNumber),
+            'idName' => CryptTool::encrypt($idName),
+        ])->get()->isNotEmpty();
     }
 
     /**
      * 判断身份证号码是否存库
      *
-     * @param int $idNumber
+     * @param string $idNumber
      * @return bool
      */
-    public function isIdNumberExist(int $idNumber)
+    public function isIdNumberExist(string $idNumber)
     {
-        return $this->model->where('id_number', $idNumber)->get()->isNotEmpty();
+        return $this->model->where('id_number', CryptTool::encrypt($idNumber))->get()->isNotEmpty();
     }
 
     /**
@@ -90,8 +91,8 @@ class IdentityRepository
             return $this->model->updateOrCreate([
                 'account_id' => $accountId,
             ],[
-                'id_number' => Crypt::encrypt($data['id_number']),
-                'id_name' => Crypt::encrypt($data['id_name']),
+                'id_number' => CryptTool::encrypt($data['id_number']),
+                'id_name' => CryptTool::encrypt($data['id_name']),
                 'birthday' => $year . '-' . $month . '-' . $day
             ]);
         } catch (Exception $exception) {

@@ -179,29 +179,4 @@ class AccountController extends Controller
 
         return $this->respJson($identity);
     }
-
-    public function delIdentity(Request $request)
-    {
-        $data = $request->all();
-        $appId = $data['app_id'];
-        $idNumber = $data['id_number'];
-        $result = \App\Models\Identity::query()->where(['app_id' => $appId, 'id_number' => $idNumber])->delete();
-        if ($result == 0)
-            return $this->respJson([], Code::UNKNOWN_EXCEPTION, "id number not exist");
-        else
-            return $this->respJson([], Code::SUCCESS, "delete success");
-    }
-
-    public function changeIdentityBirthday(Request $request)
-    {
-        $data = $request->all();
-        $appId = $data['app_id'];
-        $idNumber = $data['id_number'];
-        $birthday = $data['birthday'];
-        $result = \App\Models\Identity::query()->where(['app_id' => $appId, 'id_number' => $idNumber])->update(['birthday' => $birthday]);
-        if ($result == 0)
-            return $this->respJson([], Code::UNKNOWN_EXCEPTION, "id number not exist");
-        else
-            return $this->respJson([], Code::SUCCESS, "birthday change success");
-    }
 }

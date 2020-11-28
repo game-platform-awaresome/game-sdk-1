@@ -49,6 +49,7 @@ class OrderRepository
     protected function checkTableExist($tableName)
     {
         if (!Schema::hasTable($tableName)) {
+            Log::error('app_id: ' . $this->appId);
             throw new RenderException(Code::ORDER_DATABASE_NOT_FOUND, 'Order database not found, please contact developers');
         }
         $this->model->setTable($tableName);

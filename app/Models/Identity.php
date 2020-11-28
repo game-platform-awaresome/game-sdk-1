@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Tools\CryptTool;
+use App\Tools\StringTool;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -43,12 +45,14 @@ class Identity extends Model
 
     public function getIdNumberAttribute($value)
     {
-        return Crypt::decrypt($value);
+        $value = CryptTool::decrypt($value);
+        return StringTool::idNumberReplace($value);
     }
 
     public function getIdNameAttribute($value)
     {
-        return Crypt::decrypt($value);
+        $value = CryptTool::decrypt($value);
+        return StringTool::idNameReplace($value);
     }
 
     public function getAgeAttribute()
