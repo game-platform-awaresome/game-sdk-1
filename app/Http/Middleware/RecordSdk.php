@@ -25,7 +25,7 @@ class RecordSdk
         // 记录所有请求
         Log::channel('sdk')->info(
             "X-Request-ID：" . $request->header('X-Request-ID') .
-            "\nPath: " . $request->getPathInfo() . "| ClientIp: " . $request->getClientIp() .
+            "\nPath: " . $request->getPathInfo() . " | ClientIp: " . $request->getClientIp() .
             "\nParam: " . json_encode($request->all()));
 
         return $next($request);

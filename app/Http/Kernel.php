@@ -69,7 +69,6 @@ class Kernel extends HttpKernel
         'check.sdk.param' => \App\Http\Middleware\CheckSdkParam::class,
         'check.cp.param' => \App\Http\Middleware\CheckCpParam::class,
         'log.cp' => \App\Http\Middleware\RecordCp::class,
-        'log.pay' => \App\Http\Middleware\RecordPay::class,
         'log.sdk' => \App\Http\Middleware\RecordSdk::class,
     ];
 

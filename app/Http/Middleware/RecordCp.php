@@ -24,7 +24,7 @@ class RecordCp
         // 该中间件是第三方服务的日志中间件
         // 记录所有请求
         Log::channel('cp')->info("X-Request-ID: " . $request->header('X-Request-ID') .
-            "\nPath: " . $request->getPathInfo() . "| ClientIp: " . $request->getClientIp() .
+            "\nPath: " . $request->getPathInfo() . " | ClientIp: " . $request->getClientIp() .
             "\nParam: " . json_encode($request->all()));
 
         return $next($request);

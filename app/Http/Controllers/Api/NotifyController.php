@@ -79,7 +79,7 @@ class NotifyController extends Controller
             $payService->notify();
             // 对 trade_status 进行判断
             // 在支付宝的业务通知中，只有交易通知状态为 TRADE_SUCCESS 或 TRADE_FINISHED 时，支付宝才会认定为买家付款成功
-            if ($param['trade_status'] != 'TRADE_SUCCESS' || $param['trade_status'] != 'TRADE_FINISHED') {
+            if ($param['trade_status'] != 'TRADE_SUCCESS' && $param['trade_status'] != 'TRADE_FINISHED') {
                 $orderService->updateOrderPayFail($orderId);
             }
             // 判断订单状态

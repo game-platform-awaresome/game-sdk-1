@@ -14,13 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 // 微信、支付宝支付回调
-// pay日志中间件
-Route::middleware(['log.pay'])->group(function () {
-    Route::post('pay/wechatNotify', 'NotifyController@wechat')
-        ->name('api.pay.wechat.notify');
-    Route::post('pay/alipayNotify', 'NotifyController@alipay')
-        ->name('api.pay.alipay.notify');
-});
+Route::post('pay/wechatNotify', 'NotifyController@wechat')
+    ->name('api.pay.wechat.notify');
+Route::post('pay/alipayNotify', 'NotifyController@alipay')
+    ->name('api.pay.alipay.notify');
 // SDK接口
 // api日志中间件、签名验证中间件、频率限制中间件
 Route::middleware(['log.sdk', 'check.sdk.param', 'check.sdk.signature', 'throttle:60,1'])->group(function () {
