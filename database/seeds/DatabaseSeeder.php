@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          $this->call([
-             AppInfoTableSeeder::class,
+             AppTableSeeder::class,
              AlipayTableSeeder::class,
              WechatTableSeeder::class
          ]);

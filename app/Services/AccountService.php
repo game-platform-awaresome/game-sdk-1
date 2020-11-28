@@ -10,6 +10,7 @@ use App\Tools\HttpTool;
 use App\Tools\StringTool;
 use App\Repositories\AccountRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -127,13 +128,15 @@ class AccountService
      * @param array $data
      * @return \App\Models\Identity|\Illuminate\Database\Eloquent\Model
      * @throws RenderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function identifyIDInfoByTwoFactor(array $data)
     {
         if (!HttpTool::identifyTwoFactor($this->identifyUrl, $data)) {
             throw new RenderException(Code::IDENTIFY_FAIL, 'Identity Fail');
         }
-        return $this->identityRepository->identity($data);
+        $accountId = $this->accountRepository->getAccountIdByOpenId($data['open_id']);
+        return $this->identityRepository->identity($accountId, $data);
     }
 
     /**
@@ -153,7 +156,9 @@ class AccountService
      */
     public function checkOldIdentityMatch(array $data)
     {
-        if (!$this->identityRepository->isNumberAndNameExist($data['open_id'], $data['old_id_number'], $data['old_id_name'])) {
+        $accountId = $this->accountRepository->getAccountIdByOpenId($data['open_id']);
+        $idInfo = $this->identityRepository->getIdNumberAndIdNameByAccountId($accountId);
+        if ($idInfo['id_number'] != $data['old_id_number'] || $idInfo['id_name'] != $data['old_id_name']) {
             Log::channel('sdk')->info('旧身份证信息与数据库不匹配');
             throw new RenderException(Code::ID_INFO_DOES_NOT_MATCH, 'ID info does not match');
         }

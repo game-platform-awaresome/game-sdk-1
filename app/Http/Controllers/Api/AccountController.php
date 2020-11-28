@@ -9,6 +9,7 @@ use App\Repositories\IdentityRepository;
 use App\Services\AccountService;
 use App\Services\TokenService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AccountController extends Controller
 {
@@ -144,6 +145,7 @@ class AccountController extends Controller
      * @param AccountRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws RenderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function bindIdentity(AccountRequest $request)
     {
@@ -162,6 +164,7 @@ class AccountController extends Controller
      * @param AccountRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws RenderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function changeIdentity(AccountRequest $request)
     {
@@ -184,7 +187,7 @@ class AccountController extends Controller
         $idNumber = $data['id_number'];
         $result = \App\Models\Identity::query()->where(['app_id' => $appId, 'id_number' => $idNumber])->delete();
         if ($result == 0)
-            return $this->respJson([], Code::FAIL, "id number not exist");
+            return $this->respJson([], Code::UNKNOWN_EXCEPTION, "id number not exist");
         else
             return $this->respJson([], Code::SUCCESS, "delete success");
     }
@@ -197,7 +200,7 @@ class AccountController extends Controller
         $birthday = $data['birthday'];
         $result = \App\Models\Identity::query()->where(['app_id' => $appId, 'id_number' => $idNumber])->update(['birthday' => $birthday]);
         if ($result == 0)
-            return $this->respJson([], Code::FAIL, "id number not exist");
+            return $this->respJson([], Code::UNKNOWN_EXCEPTION, "id number not exist");
         else
             return $this->respJson([], Code::SUCCESS, "birthday change success");
     }

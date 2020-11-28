@@ -21,6 +21,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Wechat newModelQuery()
  * @method static Builder|Wechat newQuery()
  * @method static Builder|Wechat query()
+ * @method static Builder|Wechat whereAppId($value)
+ * @method static Builder|Wechat whereAppSecret($value)
+ * @method static Builder|Wechat whereCreatedAt($value)
+ * @method static Builder|Wechat whereId($value)
+ * @method static Builder|Wechat whereMchId($value)
+ * @method static Builder|Wechat whereOpenId($value)
+ * @method static Builder|Wechat whereUpdatedAt($value)
  * @mixin \Eloquent
  * @mixin Builder
  */

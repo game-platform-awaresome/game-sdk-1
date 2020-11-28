@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class AccountRepository
 {
     /**
-     * @var Account|\Illuminate\Database\Eloquent\Builder
+     * @var Account
      */
     protected $model;
 
@@ -70,6 +70,22 @@ class AccountRepository
     {
         try {
             return $this->model->where('open_id', $openId)->firstOrFail();
+        } catch (ModelNotFoundException $exception) {
+            throw new RenderException(Code::INVALID_OPEN_ID, 'Invalid OPEN ID');
+        }
+    }
+
+    /**
+     * 根据open_id寻找账号主键
+     *
+     * @param string $openId
+     * @return string
+     * @throws RenderException
+     */
+    public function getAccountIdByOpenId(string $openId)
+    {
+        try {
+            return $this->model->where('open_id', $openId)->firstOrFail('id')->id;
         } catch (ModelNotFoundException $exception) {
             throw new RenderException(Code::INVALID_OPEN_ID, 'Invalid OPEN ID');
         }
@@ -147,6 +163,10 @@ class AccountRepository
             ]);
         } catch (ModelNotFoundException $exception) {
             throw new RenderException(Code::PHONE_NUMBER_UNREGISTERED, 'Phone Number Unregistered');
+        } catch (Exception $exception) {
+            Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
+            throw new RenderException(Code::UPDATE_ACCOUNT_FAIL, 'Account Update Fail');
         }
     }
 
@@ -170,6 +190,7 @@ class AccountRepository
             throw new RenderException(Code::INVALID_UUID, 'Invalid UUID');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ACCOUNT_FAIL, 'Account Update Fail');
         }
     }
@@ -193,6 +214,7 @@ class AccountRepository
             throw new RenderException(Code::INVALID_UUID, 'Invalid UUID');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ACCOUNT_FAIL, 'Account Update Fail');
         }
     }
@@ -214,6 +236,7 @@ class AccountRepository
             throw new RenderException(Code::INVALID_UUID, 'Invalid UUID');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ACCOUNT_FAIL, 'Account Update Fail');
         }
     }
@@ -235,6 +258,7 @@ class AccountRepository
             throw new RenderException(Code::INVALID_ORDER_ID, 'Invalid OPEN ID');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ACCOUNT_FAIL, 'Account Update Fail');
         }
     }
@@ -256,6 +280,7 @@ class AccountRepository
             throw new RenderException(Code::PHONE_NUMBER_UNREGISTERED, 'Phone Number Unregistered');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ACCOUNT_FAIL, 'Account Update Fail');
         }
     }
@@ -284,6 +309,7 @@ class AccountRepository
             ]);
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::ACCOUNT_REGISTERED_FAIL, 'Account Registered Fail');
         }
     }

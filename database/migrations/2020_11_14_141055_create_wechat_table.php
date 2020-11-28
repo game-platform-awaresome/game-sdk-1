@@ -14,7 +14,7 @@ class CreateWechatTable extends Migration
     public function up()
     {
         Schema::create('wechat', function (Blueprint $table) {
-            $table->increments('id');
+            $table->tinyIncrements('id');
             $table->unsignedTinyInteger('app_id')->comment('应用id');
             $table->string('open_id')->comment('微信的app_id');
             $table->string('mch_id');

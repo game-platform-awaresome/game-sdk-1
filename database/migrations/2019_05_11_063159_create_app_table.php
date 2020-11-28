@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAppInfoTable extends Migration
+class CreateAppTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAppInfoTable extends Migration
      */
     public function up()
     {
-        Schema::create('app_info', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedTinyInteger('app_id')->unique()->index();
-            $table->string('app_name', 32)->nullable()->comment('app 名称');
-            $table->string('app_secret');
+        Schema::create('app', function (Blueprint $table) {
+            $table->tinyIncrements('id');
+            $table->string('name', 32)->nullable()->comment('app 名称');
+            $table->string('secret', 64);
             $table->string('notify_url',256);
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ class CreateAppInfoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('app_info');
+        Schema::dropIfExists('app');
     }
 }

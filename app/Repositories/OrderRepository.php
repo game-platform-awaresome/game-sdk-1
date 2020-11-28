@@ -116,6 +116,10 @@ class OrderRepository
             ]);
         } catch (ModelNotFoundException $exception) {
             throw new RenderException(Code::INVALID_ORDER_ID, 'Invalid ORDER ID');
+        } catch (Exception $exception) {
+            Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
+            throw new RenderException(Code::UPDATE_ORDER_FAIL, 'Order Update Fail');
         }
     }
 
@@ -136,6 +140,7 @@ class OrderRepository
             throw new RenderException(Code::INVALID_ORDER_ID, 'Invalid ORDER ID');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ORDER_FAIL, 'Order Update Fail');
         }
     }
@@ -157,6 +162,7 @@ class OrderRepository
             throw new RenderException(Code::INVALID_ORDER_ID, 'Invalid ORDER ID');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ORDER_FAIL, 'Order Update Fail');
         }
     }
@@ -176,6 +182,7 @@ class OrderRepository
             throw new RenderException(Code::INVALID_ORDER_ID, 'Invalid ORDER ID');
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::UPDATE_ORDER_FAIL, 'Order Update Fail');
         }
     }
@@ -211,6 +218,7 @@ class OrderRepository
             ]);
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::CREATE_ORDER_FAIL, 'Create Order Fail');
         }
     }

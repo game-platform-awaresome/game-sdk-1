@@ -4,11 +4,11 @@ namespace App\Repositories;
 use App\Constants\CacheHeader;
 use App\Exceptions\Code;
 use App\Exceptions\RenderException;
-use App\Models\AppInfo;
+use App\Models\App;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
 
-class AppInfoRepository
+class AppRepository
 {
     /**
      * @var int
@@ -21,17 +21,17 @@ class AppInfoRepository
     protected $ttl = 60 * 60 * 12;
 
     /**
-     * @var AppInfo|\Illuminate\Database\Eloquent\Builder
+     * @var App|\Illuminate\Database\Eloquent\Builder
      */
     protected $model;
 
     /**
-     * AppInfoRepository constructor.
+     * AppRepository constructor.
      * @param int $appId
      */
     public function __construct(int $appId)
     {
-        $this->model = new AppInfo();
+        $this->model = new App();
         $this->appId = $appId;
     }
 
@@ -39,12 +39,12 @@ class AppInfoRepository
      * @return array
      * @throws RenderException
      */
-    public function getAppInfo()
+    public function getApp()
     {
         try {
             $appId = $this->appId;
             return Cache::remember(CacheHeader::AppConfig . $this->appId, $this->ttl, function () use ($appId) {
-                return $this->model->where('app_id', $appId)->firstOrFail()->toArray();
+                return $this->model->where('id', $appId)->firstOrFail()->toArray();
             });
         } catch (ModelNotFoundException $exception) {
             throw new RenderException(Code::INVALID_APP_ID, 'Invalid APP ID');

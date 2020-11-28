@@ -8,11 +8,11 @@ use App\Exceptions\RenderException;
 use App\Repositories\AccountRepository;
 use App\Repositories\IdentityRepository;
 use App\Repositories\AccountLoginRepository;
+use App\Tools\StringTool;
 use App\Traits\TokenServiceTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TokenService
 {
@@ -55,18 +55,17 @@ class TokenService
         $credential = ['phone' => $data['phone'], 'password' => $data['password']];
         $token = $this->createTokenFromCredential($credential);
         // 销毁旧有效token
-        $account = $this->accountRepository->getAccountByPhone($data['phone'])->toArray();
+        $account = $this->accountRepository->getAccountByPhone($data['phone']);
         if ($account['token']) {
             $this->destroyToken($account['token']);
         }
         $this->accountRepository->updateTokenByPhone($data['phone'], $token);
         // 日志记录
-        $data['uuid'] = $account['uuid'];
-        $data['open_id'] = $account['open_id'];
+        $data['id'] = $account['id'];
         $data['user_type'] = UserType::User;
         $this->accountLoginRepository->log($data);
 
-        return $this->responseWithToken($token, $data);
+        return $this->responseWithToken($token, $account->toArray());
     }
 
     /**
@@ -86,13 +85,11 @@ class TokenService
         }
         $this->accountRepository->updateTokenByUuid($data['uuid'], $token);
         // 日志记录
-        $data['uuid'] = $account['uuid'];
-        $data['phone'] = $account['phone'];
-        $data['open_id'] = $account['open_id'];
+        $data['id'] = $account['id'];
         $data['user_type'] = UserType::Visitor;
         $this->accountLoginRepository->log($data);
 
-        return $this->responseWithToken($token, $data);
+        return $this->responseWithToken($token, $account->toArray());
     }
 
     /**
@@ -110,13 +107,11 @@ class TokenService
         $token = $this->refreshToken();
         $this->accountRepository->updateTokenByOpenId($data['open_id'], $token);
         // 日志记录
-        $data['uuid'] = $account['uuid'];
-        $data['phone'] = $account['phone'];
-        $data['open_id'] = $account['open_id'];
+        $data['id'] = $account['id'];
         $data['user_type'] = $account['user_type'];
         $this->accountLoginRepository->log($data);
 
-        return $this->responseWithToken($token, $data);
+        return $this->responseWithToken($token, $account->toArray());
     }
 
     /**
@@ -138,20 +133,20 @@ class TokenService
      * 整理登录返回数据
      *
      * @param string $token
-     * @param array $data
+     * @param array $account
      * @return array
      */
-    protected function responseWithToken(string $token, array $data) : array
+    protected function responseWithToken(string $token, array $account) : array
     {
-        $identity = $this->identityRepository->getIdentityByOpenId($data['open_id']);
+        $identity = $this->identityRepository->getIdentityByAccountId($account['id']);
 
         return [
             'token' => $token,
-            'user_type' => $data['user_type'],
-            'open_id' => $data['open_id'],
-            'uuid' => $data['uuid'] ?? '',
-            'id_number' => $identity['id_number'] ?? '',
-            'id_name' => $identity['id_name'] ?? '',
+            'user_type' => $account['user_type'],
+            'open_id' => $account['open_id'],
+            'uuid' => $account['uuid'] ?? '',
+            'id_number' => isset($identity['id_number']) ? substr_replace($identity['id_number'],'***********',3,11) : '',
+            'id_name' => isset($identity['id_name']) ? StringTool::idNamesReplace($identity['id_name']) : '',
             'birthday' => $identity['birthday'] ?? '',
             'age' => $identity['age'] ?? -1
         ];

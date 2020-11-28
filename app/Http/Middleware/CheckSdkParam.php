@@ -34,7 +34,7 @@ class CheckSdkParam
     protected function checkNullable($param)
     {
         $validator = Validator::make($param, [
-            'app_id' => 'required|int|exists:app_info,app_id',
+            'app_id' => 'required|int|exists:app,id',
             'time' => 'required',
             'os' => 'required|int|in:1,2',
             'sign' => 'required|string',

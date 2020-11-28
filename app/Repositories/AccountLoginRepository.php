@@ -60,15 +60,15 @@ class AccountLoginRepository
     {
         try {
             return $this->model->create([
-                'open_id' => $data['open_id'],
-                'phone' => $data['phone'],
+                'account_id' => $data['id'],
                 'os' => $data['os'] ?? Os::Android,
-                'user_type' => $data['user_type'] ?? UserType::User,
+                'user_type' => $data['user_type'],
                 'device' => $data['device'],
                 'ip' => $data['ip'],
             ]);
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());
+            Log::error($exception->getMessage());
             throw new RenderException(Code::LOGIN_LOG_RECORD_FAIL, 'Login log record fail');
         }
     }

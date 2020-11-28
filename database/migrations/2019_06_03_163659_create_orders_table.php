@@ -15,6 +15,8 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         OrderRepository::migrate('orders_1');
+        OrderRepository::migrate('orders_2');
+        OrderRepository::migrate('orders_3');
     }
 
     /**
@@ -25,5 +27,7 @@ class CreateOrdersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('orders_1');
+        Schema::dropIfExists('orders_2');
+        Schema::dropIfExists('orders_3');
     }
 }

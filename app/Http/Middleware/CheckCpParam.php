@@ -34,7 +34,7 @@ class CheckCpParam
     protected function checkNullable($param)
     {
         $validator = Validator::make($param, [
-            'app_id' => 'required|string|exists:app_info',
+            'app_id' => 'required|string|exists:app,id',
         ]);
 
         if ($validator->fails()) {

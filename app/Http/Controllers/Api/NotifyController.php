@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\RenderException;
 use App\Services\AlipayService;
-use App\Services\AppInfoService;
+use App\Services\AppService;
 use App\Tools\HttpTool;
 use App\Services\OrderService;
 use App\Tools\SignTool;
@@ -109,11 +109,11 @@ class NotifyController extends Controller
      */
     protected function callback(OrderService $orderService, string $appId, string $orderId)
     {
-        $appInfoService = new AppInfoService($appId);
+        $appService = new AppService($appId);
 
-        $notifyUrl = $appInfoService->getNotifyUrl();
+        $notifyUrl = $appService->getNotifyUrl();
         $notifyOrderInfo = $orderService->getNotifyOrderInfo($orderId);
-        $secret = $appInfoService->getAppSecret();
+        $secret = $appService->getSecret();
 
         $notifyOrderInfo = SignTool::generateSignToData($notifyOrderInfo, $secret);
 

@@ -21,6 +21,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Alipay newModelQuery()
  * @method static Builder|Alipay newQuery()
  * @method static Builder|Alipay query()
+ * @method static Builder|Alipay whereAliPublicKey($value)
+ * @method static Builder|Alipay whereAppId($value)
+ * @method static Builder|Alipay whereCreatedAt($value)
+ * @method static Builder|Alipay whereId($value)
+ * @method static Builder|Alipay whereOpenId($value)
+ * @method static Builder|Alipay wherePrivateKey($value)
+ * @method static Builder|Alipay whereUpdatedAt($value)
  * @mixin \Eloquent
  * @mixin Builder
  */

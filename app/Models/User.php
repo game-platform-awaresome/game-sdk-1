@@ -20,6 +20,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
+ * @method static Builder|User whereAvatar($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereUserName($value)
  * @mixin \Eloquent
  * @mixin Builder
  */

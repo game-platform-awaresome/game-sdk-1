@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\Code;
 use App\Exceptions\RenderException;
-use App\Repositories\AppInfoRepository;
-use App\Services\AppInfoService;
+use App\Repositories\AppRepository;
+use App\Services\AppService;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\Log;
@@ -53,8 +53,8 @@ class CheckSdkSignature
     protected function checkSignature(array $param)
     {
         // 查找 appid 对应的 app_secret
-        $appInfo = new AppInfoService($param['app_id']);
-        $appSecret = $appInfo->getAppSecret();
+        $app = new AppService($param['app_id']);
+        $appSecret = $app->getSecret();
         // 记录sign并删除sign字段
         $sign = $param['sign'];
         unset($param['sign']);

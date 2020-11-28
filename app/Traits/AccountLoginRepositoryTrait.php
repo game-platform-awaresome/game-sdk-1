@@ -13,12 +13,11 @@ trait AccountLoginRepositoryTrait
     public static function migrate(string $tableName)
     {
         Schema::create($tableName, function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('open_id',128)->index()->comment('唯一的账户id');
-            $table->string('phone', 20)->index()->comment('电话号码');
-            $table->unsignedTinyInteger('os')->comment('系统 1: android 2:ios');
-            $table->unsignedTinyInteger('user_type')->comment('用户类型 1：游客 0：正常用户');
-            $table->string('device')->comment('设备');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('account_id')->index()->comment('account主键');
+            $table->unsignedTinyInteger('user_type')->comment('登录用户类型 1：游客 0：正常用户');
+            $table->unsignedTinyInteger('os')->comment('登录系统 1: android 2:ios');
+            $table->string('device')->comment('登录设备');
             $table->char('ip', 24)->comment('登录ip');
             $table->timestamps();
         });

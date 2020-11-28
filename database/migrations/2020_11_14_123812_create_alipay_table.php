@@ -14,7 +14,7 @@ class CreateAlipayTable extends Migration
     public function up()
     {
         Schema::create('alipay', function (Blueprint $table) {
-            $table->increments('id');
+            $table->tinyIncrements('id');
             $table->unsignedTinyInteger('app_id')->comment('应用id');
             $table->string('open_id')->comment('支付宝的app_id');
             $table->text('ali_public_key')->comment('支付宝公钥，用于验签支付宝回调数据');

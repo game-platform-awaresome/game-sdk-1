@@ -61,6 +61,7 @@
   "Login log record fail": "登录日志记录失败",
   "ID number already exist": "身份证号码已存在",
   "ID info does not match": "旧身份证信息与数据库不匹配",
+  "ID info does not exist": "身份证信息不存在",
   "Identity Fail": "实名认证失败",
   "Account Update Fail": "账户更新失败",
   "Order database not found, please contact developers.": "未找到订单数据库，请联系开发人员",
