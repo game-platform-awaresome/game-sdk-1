@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\Code;
-use App\Facades\Sms;
-use App\Models\Account;
 use App\Exceptions\RenderException;
 use App\Http\Requests\SmsRequest;
-use App\Handlers\VerificationCodeHandler;
 use App\Services\SmsService;
 
 class SmsController extends Controller

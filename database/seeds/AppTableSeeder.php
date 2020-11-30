@@ -15,21 +15,21 @@ class AppTableSeeder extends Seeder
         App::query()->create([
             'id' => 1,
             'name' => '那一剑江湖',
-            'secret' => 'jkh123kjh1k2jh3',
+            'secret' => 'b95f8caa39fba1cbc550160e5838c0c4',
             'notify_url' => 'http://106.75.230.85:12001/Notify/pay/channel/l1021',
         ]);
 
         App::query()->create([
             'id' => 2,
             'name' => '战争工厂',
-            'secret' => 'abcd123asdasdzxc',
+            'secret' => '9a752a9b513b1a044e1d65d7a1d31209',
             'notify_url' => 'http://106.75.230.85:12001/Notify/pay/channel/l1021',
         ]);
 
         App::query()->create([
             'id' => 3,
             'name' => '幻剑九歌',
-            'secret' => 'iUrD9EFhDm5Z6AFF',
+            'secret' => 'dfdae0de0cbf5424406e259e343a9477',
             'notify_url' => 'http://b2sdk.cmkjgame.com:13006/Notify/Pay/sdk/999',
         ]);
     }

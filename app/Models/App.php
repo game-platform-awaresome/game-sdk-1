@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $name app 名称
  * @property string $secret
  * @property string $notify_url
+ * @property string $notify_key
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static Builder|App newModelQuery()

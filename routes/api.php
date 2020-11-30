@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // 微信、支付宝支付回调
-Route::post('pay/wechatNotify', 'NotifyController@wechat')
-    ->name('api.pay.wechat.notify');
-Route::post('pay/alipayNotify', 'NotifyController@alipay')
-    ->name('api.pay.alipay.notify');
+Route::prefix('pay')->group(function () {
+    Route::post('wechatNotify', 'NotifyController@wechat')
+        ->name('api.pay.wechat.notify');
+    Route::post('alipayNotify', 'NotifyController@alipay')
+        ->name('api.pay.alipay.notify');
+});
 // SDK接口
 // api日志中间件、签名验证中间件、频率限制中间件
 Route::middleware(['log.sdk', 'check.sdk.param', 'check.sdk.signature', 'throttle:60,1'])->group(function () {
@@ -66,12 +68,12 @@ Route::middleware(['log.sdk', 'check.sdk.param', 'check.sdk.signature', 'throttl
         ->name('api.client.errors.report');
 });
 // 供所接游戏进行登录验证、查询订单号
-// Third日志中间件
-Route::middleware(['log.cp', 'check.cp.param'])->group(function () {
+// cp日志中间件
+Route::prefix('cp')->middleware(['log.cp', 'check.cp.param'])->group(function () {
     // 比其余SDK接口多一个Token校验中间件
     Route::middleware('auth.token')->post('tokenValidation', 'TokenController@validateToken')
         ->name('api.token.validation');
-    Route::post('orders/status', 'OrderController@orderStatus')
+    Route::get('orders', 'OrderController@orderStatus')
         ->name('api.orders.status');
 });
 // 供测试使用，后续进行WEB

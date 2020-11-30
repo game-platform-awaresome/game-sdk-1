@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExceptionReport
@@ -52,6 +53,8 @@ class ExceptionReport
             $message = __($exception->getMessage());
         } else if ($exception instanceof NotFoundHttpException) {
             $message = __('Not Found');
+        } else if ($exception instanceof MethodNotAllowedHttpException) {
+            $message = __('Method Not Allow');
         } else {
             Log::error('exception message: ' . $exception->getMessage());
             $message = empty($exception->getMessage()) || !config('app.debug') ? __('Server Error') : $exception->getMessage();

@@ -31,8 +31,9 @@ class TokenController extends Controller
      */
     public function validateToken(TokenRequest $request)
     {
-        Log::channel('cp')->info('token validation param: ' . json_encode($request->all()));
-        $result = $this->tokenService->checkToken();
+        $param = $request->all();
+        Log::channel('cp')->info('token validation param: ' . json_encode($param));
+        $result = $this->tokenService->checkToken($param);
 
         return $this->respJson($result);
     }

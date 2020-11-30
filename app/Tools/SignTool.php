@@ -16,7 +16,13 @@ class SignTool
         ksort($data);
         // 签名
         $data['secret'] = $secret;
-        $data['sign'] = strtoupper(md5(http_build_query($data)));
+        // 字符串
+        array_walk($data, function(&$value, $key) {
+            $value = "{$key}={$value}";
+        });
+        $str = implode('&', $data);
+        // md5+大写
+        $data['sign'] = strtoupper(md5($str));
         unset($data['secret']);
 
         return $data;
