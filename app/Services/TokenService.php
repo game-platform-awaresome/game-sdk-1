@@ -8,7 +8,6 @@ use App\Exceptions\RenderException;
 use App\Repositories\AccountRepository;
 use App\Repositories\IdentityRepository;
 use App\Repositories\AccountLoginRepository;
-use App\Tools\StringTool;
 use App\Traits\TokenServiceTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;

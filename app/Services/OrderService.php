@@ -139,7 +139,7 @@ class OrderService
         // 比较金额
         if ($amount != $callbackAmount) {
             $this->orderRepository->updateStatusByOrderId($orderId, OrderStatus::CHECK_FAIL);
-            Log::channel('pay')->error('金额校验不通过');
+            Log::channel('pay')->error('amount not match');
             throw new RenderException(Code::AMOUNT_NOT_MATCH, 'Amount Not Match');
         }
         return true;
@@ -161,7 +161,8 @@ class OrderService
      */
     public function updateOrderSuccess(string $orderId)
     {
-        Log::channel('pay')->info('发货成功');
+        Log::channel('pay')->info('deliver success');
+        Log::channel('cp')->info('deliver success');
         $this->orderRepository->updateStatusByOrderId($orderId, OrderStatus::DELIVER_SUCCESS);
     }
 
@@ -171,7 +172,8 @@ class OrderService
      */
     public function updateOrderDeliverFail(string $orderId)
     {
-        Log::channel('pay')->info('发货失败，请联系游戏方');
+        Log::channel('pay')->info('deliver fail');
+        Log::channel('cp')->info('deliver fail');
         $this->orderRepository->updateStatusByOrderId($orderId, OrderStatus::DELIVER_FAIL);
     }
 
@@ -181,7 +183,7 @@ class OrderService
      */
     public function updateOrderPayFail(string $orderId)
     {
-        Log::channel('pay')->info('支付失败，请检查SDK参数');
+        Log::channel('pay')->info('pay fail, please check unifiedOrder');
         $this->orderRepository->updateStatusByOrderId($orderId, OrderStatus::PAY_FAIL);
     }
 }

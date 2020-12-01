@@ -48,7 +48,6 @@ class NotifyController extends Controller
             $orderService->updateOutOrderNo($orderId, $param['transaction_id']);
             // 获取回调信息并发送
             $this->callback($orderService, $appId, $orderId);
-
             // 返回结果
             return $this->respWechat();
         } catch (\Exception $exception) {
@@ -90,7 +89,6 @@ class NotifyController extends Controller
             $orderService->updateOutOrderNo($orderId, $param['trade_no']);
             // 获取回调信息并发送
             $this->callback($orderService, $appId, $orderId);
-
             // 返回结果
             return $this->respAlipay();
         } catch (\Exception $exception) {
@@ -117,7 +115,9 @@ class NotifyController extends Controller
 
         $notifyOrderInfo = SignTool::generateSignToData($notifyOrderInfo, $secret);
 
-        if (HttpTool::notifyGame($notifyUrl, $notifyOrderInfo) == 'success') {
+        $result = HttpTool::notifyGame($notifyUrl, $notifyOrderInfo);
+        Log::channel('pay')->info('game result: ' . $result);
+        if ($result == 'success') {
             $orderService->updateOrderSuccess($orderId);
         } else {
             $orderService->updateOrderDeliverFail($orderId);

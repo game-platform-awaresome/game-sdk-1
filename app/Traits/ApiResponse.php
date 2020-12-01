@@ -21,7 +21,10 @@ trait ApiResponse
             'status' => $status,
             'message' => $message,
             'data' => $data
-        ], FoundationResponse::HTTP_OK);
+        ],
+        FoundationResponse::HTTP_OK,
+        [],
+        JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     /**
