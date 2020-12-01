@@ -26,7 +26,7 @@ class HttpTool
 
             $client = new Client(['timeout' => 10]);
             $resp = $client->post($url, [
-                'json' => $data
+                'form_params' => $data
             ]);
 
             $result = (string)$resp->getBody();

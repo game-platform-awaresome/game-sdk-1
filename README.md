@@ -20,6 +20,10 @@
 8. 填写APP_URL即IP+PORT，如果有负载均衡和域名，就使用域名
 9. 执行数据库迁移
     `php artisan migrate --seed`
+10. 正式环境执行，优化执行效率
+    - php artisan config:cache 如果遇到配置修改，需要重新缓存
+    - php artisan route:cache （闭包函数无法执行）
+    - composer dumpautoload -o
 
 ### 代码架构
 
