@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\TokenRequest;
 use App\Services\TokenService;
-use Illuminate\Support\Facades\Log;
 
 class TokenController extends Controller
 {
@@ -32,7 +31,6 @@ class TokenController extends Controller
     public function validateToken(TokenRequest $request)
     {
         $param = $request->all();
-        Log::channel('cp')->info('token validation param: ' . json_encode($param));
         $result = $this->tokenService->checkToken($param);
 
         return $this->respJson($result);

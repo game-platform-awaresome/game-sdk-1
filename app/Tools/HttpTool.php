@@ -21,8 +21,8 @@ class HttpTool
     public static function notifyGame(string $url, array $data)
     {
         try {
-            Log::channel('cp')->info('game notify url: ' . $url);
-            Log::channel('cp')->info('game notify param: ' . json_encode($data));
+            Log::channel('cp_notify')->info('send game url: ' . $url);
+            Log::channel('cp_notify')->info('send game param: ' . var_export($data, true));
 
             $client = new Client(['timeout' => 10]);
             $resp = $client->post($url, [
@@ -30,19 +30,20 @@ class HttpTool
             ]);
 
             $result = (string)$resp->getBody();
-            Log::channel('cp')->info('game notify result: ' . $result);
+            Log::channel('cp_notify')->info('game response: ' . $result);
+            Log::channel('pay')->info('game response: ' . $result);
 
             return $result;
         } catch (ClientException $exception) {
             $body = (string)$exception->getResponse()->getBody();
-            Log::channel('cp')->error("notify fail, client error: " . $body);
+            Log::channel('cp_notify')->error("notify fail, client error: " . $body);
             return false;
         } catch (ServerException $exception) {
             $body = (string)$exception->getResponse()->getBody();
-            Log::channel('cp')->error("notify fail, game server error: " . $body);
+            Log::channel('cp_notify')->error("notify fail, game server error: " . $body);
             return false;
         } catch (\Exception $exception) {
-            Log::channel('cp')->error("notify fail, system error: " . $exception->getMessage());
+            Log::channel('cp_notify')->error("notify fail, system error: " . $exception->getMessage());
             return false;
         }
     }
@@ -60,7 +61,7 @@ class HttpTool
     {
         try {
             $sendData['body'] = "idcard={$data['id_number']}&name={$data['id_name']}";
-            Log::channel('third')->info('identifyTwoFactor param: ' . json_encode($sendData));
+            Log::channel('third')->info('send identify param: ' . var_export($data, true));
 
             $client = new Client(['timeout' => 10]);
             $resp = $client->post($url, [
@@ -68,7 +69,7 @@ class HttpTool
             ]);
 
             $result = (string)$resp->getBody();
-            Log::channel('third')->info('identify result: ' . $result);
+            Log::channel('third')->info('identify response: ' . $result);
 
             $res = json_decode($result, true);
             if (isset($res["result"]["result"]["res"]) && $res["result"]["result"]["res"] == 1) {

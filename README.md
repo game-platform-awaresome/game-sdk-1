@@ -74,7 +74,11 @@
 - client 客户端错误上传通道
 - third 第三方实名认证服务、短信服务日志
 - cp 游戏提供商交互日志（token校验、订单查询、订单回调至第三方服务器）
+    - query cp方往sdk方发送的二次校验请求和订单查询请求
+    - notify sdk方支付信息回调至cp方
 - pay 微信、支付宝交互（下单和回调）
+    - unifiedOrder 预支付下单
+    - notify 微信支付宝回调
 
 ## License
 

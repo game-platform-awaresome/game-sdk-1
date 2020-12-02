@@ -122,7 +122,6 @@ class TokenService
     {
         try {
             $account = Auth::guard('api')->user();
-            Log::channel('cp')->info("user open_id: " . $account['open_id']);
             return ['open_id' => $data['app_id'] . $account['open_id'], 'name' => $account['name']];
         } catch (Exception $e) {
             throw new RenderException(Code::INVALID_TOKEN, 'Invalid Token');

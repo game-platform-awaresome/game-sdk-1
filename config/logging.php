@@ -116,10 +116,18 @@ return [
             'days' => 30,
         ],
 
-        // 第三方游戏服务器交互
-        'cp' => [
+        // CP服务 token校验、订单状态查询
+        'cp_query' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/cp/cp.log'),
+            'path' => storage_path('logs/cp/query.log'),
+            'level' => 'info',
+            'days' => 30,
+        ],
+
+        // 回调CP
+        'cp_notify' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/cp/notify.log'),
             'level' => 'info',
             'days' => 30,
         ],

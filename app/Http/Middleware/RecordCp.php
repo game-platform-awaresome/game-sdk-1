@@ -23,9 +23,9 @@ class RecordCp
     {
         // 该中间件是第三方服务的日志中间件
         // 记录所有请求
-        Log::channel('cp')->info("X-Request-ID: " . $request->header('X-Request-ID') .
-            "\nParam: " . var_export($request->all(), true) .
-            " Path: " . $request->getPathInfo() . " | ClientIp: " . $request->getClientIp());
+        Log::channel('cp_query')->info("x-request-id: " . $request->header('X-Request-ID') .
+            "\nparam: " . var_export($request->all(), true) .
+            " path: " . $request->getPathInfo() . " | ip: " . $request->getClientIp());
 
         return $next($request);
     }
@@ -36,7 +36,7 @@ class RecordCp
      */
     public function terminate($request, $response)
     {
-        Log::channel('cp')->info("X-Request-ID: " . $request->header('X-Request-ID') .
-            "\nReturn: " . $response->getContent());
+        Log::channel('cp_query')->info("x-request-id: " . $request->header('X-Request-ID') .
+            "\nresponse: " . $response->getContent());
     }
 }
