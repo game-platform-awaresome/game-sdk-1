@@ -12,18 +12,18 @@ class SignTool
      */
     public static function generateSignToData(array $data, string $secret)
     {
-        // 加密
-        ksort($data);
+        $dataSign = $data;
+        // 排序
+        ksort($dataSign);
         // 签名
-        $data['secret'] = $secret;
+        $dataSign['secret'] = $secret;
         // 字符串
-        array_walk($data, function(&$value, $key) {
+        array_walk($dataSign, function(&$value, $key) {
             $value = "{$key}={$value}";
         });
-        $str = implode('&', $data);
+        $str = implode('&', $dataSign);
         // md5+大写
         $data['sign'] = strtoupper(md5($str));
-        unset($data['secret']);
 
         return $data;
     }
