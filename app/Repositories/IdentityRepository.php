@@ -38,7 +38,6 @@ class IdentityRepository
         try {
             return $this->model->where('account_id', $accountId)->firstOrFail();
         } catch (ModelNotFoundException $exception) {
-            Log::channel('sdk')->info('用户未实名');
             return null;
         }
     }

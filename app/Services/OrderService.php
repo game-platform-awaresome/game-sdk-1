@@ -162,7 +162,7 @@ class OrderService
     public function updateOrderSuccess(string $orderId)
     {
         Log::channel('pay')->info('deliver success');
-        Log::channel('cp')->info('deliver success');
+        Log::channel('cp_notify')->info('deliver success');
         $this->orderRepository->updateStatusByOrderId($orderId, OrderStatus::DELIVER_SUCCESS);
     }
 
@@ -173,7 +173,7 @@ class OrderService
     public function updateOrderDeliverFail(string $orderId)
     {
         Log::channel('pay')->info('deliver fail');
-        Log::channel('cp')->info('deliver fail');
+        Log::channel('cp_notify')->info('deliver fail');
         $this->orderRepository->updateStatusByOrderId($orderId, OrderStatus::DELIVER_FAIL);
     }
 

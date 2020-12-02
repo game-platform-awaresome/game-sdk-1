@@ -25,7 +25,7 @@ class NotifyController extends Controller
         try {
             // 等待Yansongda/pay扩展库升级微信接口的v3版本，使用json交互后，直接使用$request->all()
             $param = xmlToArray($request->getContent());
-            Log::channel('pay')->info('Wechat Param: ' . json_encode($param));
+            Log::channel('pay')->info('wechat param: ' . var_export($param, true));
             $appId = json_decode(urldecode($param['attach']), true)['app_id'];
             $orderId = $param['out_trade_no'];
 
@@ -52,7 +52,7 @@ class NotifyController extends Controller
             return $this->respWechat();
         } catch (\Exception $exception) {
             // 捕捉所有异常，表示已收到消息，停止重发
-            Log::channel('pay')->error('Wechat Error: ' . $exception->getMessage());
+            Log::channel('pay')->error('wechat error: ' . $exception->getMessage());
             return $this->respWechat();
         }
     }
@@ -66,7 +66,7 @@ class NotifyController extends Controller
     {
         try {
             $param = $request->all();
-            Log::channel('pay')->info('Alipay Param: ' . json_encode($param));
+            Log::channel('pay')->info('alipay param: ' . var_export($param, true));
             $appId = json_decode(urldecode($param['passback_params']), true)['app_id'];
             $orderId = $param['out_trade_no'];
 
@@ -93,7 +93,7 @@ class NotifyController extends Controller
             return $this->respAlipay();
         } catch (\Exception $exception) {
             // 捕捉所有异常，表示已收到消息，停止重发
-            Log::channel('pay')->error('Alipay Error: ' . $exception->getMessage());
+            Log::channel('pay')->error('alipay error: ' . $exception->getMessage());
             return $this->respAlipay();
         }
     }
@@ -116,7 +116,6 @@ class NotifyController extends Controller
         $notifyOrderInfo = SignTool::generateSignToData($notifyOrderInfo, $secret);
 
         $result = HttpTool::notifyGame($notifyUrl, $notifyOrderInfo);
-        Log::channel('pay')->info('game result: ' . $result);
         if ($result == 'success') {
             $orderService->updateOrderSuccess($orderId);
         } else {

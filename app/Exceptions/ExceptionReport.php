@@ -47,7 +47,7 @@ class ExceptionReport
     {
         // 如果是QueryException打印sql语句
         if ($exception instanceof QueryException) {
-            Log::error($exception->getSql());
+            Log::error('sql: ' . $exception->getSql());
         }
         // 区分开
         if ($exception instanceof RenderException) {
