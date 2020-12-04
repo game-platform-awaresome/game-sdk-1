@@ -16,13 +16,13 @@ class OrderRequest extends FormRequest
             case 'store':
                 return [
                     'open_id' => 'required|string',
-                    'amount' => 'required|string',
+                    'amount' => 'required',
                     'device' => 'required|string',
                     'item_id' => 'required|string',
                     'item_name' => 'required|string',
                     'role_id' => 'required|string',
                     'role_name' => 'required|string',
-                    'server_id' => 'required|string',
+                    'server_id' => 'required',
                     'order_type' => 'required',
                     'cp_order_no' => 'required|string',
                     'extra_data' => 'string',

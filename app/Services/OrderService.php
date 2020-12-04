@@ -109,7 +109,7 @@ class OrderService
      */
     public function getNotifyOrderInfo(string $orderId)
     {
-        $orderInfo = ['order_id', 'item_id', 'item_name', 'role_id', 'server_id', 'amount', 'channel_id', 'cp_order_no', 'extra_data'];
+        $orderInfo = ['order_id', 'item_id', 'item_name', 'role_id', 'server_id', 'amount', 'cp_order_no', 'extra_data'];
         $orderInfo  = $this->orderRepository->getOrderByOrderId($orderId, $orderInfo)->toArray();
         // 排序
         ksort($orderInfo);
