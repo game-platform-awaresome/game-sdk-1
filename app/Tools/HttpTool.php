@@ -61,7 +61,7 @@ class HttpTool
     {
         try {
             $sendData['body'] = "idcard={$data['id_number']}&name={$data['id_name']}";
-            Log::channel('third')->info('send identify param: ' . var_export($data, true));
+            Log::channel('third')->info('send identify param: ' . var_export($sendData, true));
 
             $client = new Client(['timeout' => 10]);
             $resp = $client->post($url, [
