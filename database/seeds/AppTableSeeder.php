@@ -30,7 +30,7 @@ class AppTableSeeder extends Seeder
             'id' => 3,
             'name' => '幻剑九歌',
             'secret' => 'dfdae0de0cbf5424406e259e343a9477',
-            'notify_url' => 'http://b2sdk.cmkjgame.com:13006/Notify/Pay/sdk/999',
+            'notify_url' => 'http://b2sdk.cmkjgame.com:13006/Notify/Pay/sdk/998',
         ]);
     }
 }
