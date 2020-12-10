@@ -109,8 +109,10 @@ class NotifyController extends Controller
     {
         $appService = new AppService($appId);
 
+        // 构建回调内容
         $notifyUrl = $appService->getNotifyUrl();
         $notifyOrderInfo = $orderService->getNotifyOrderInfo($orderId);
+        $notifyOrderInfo['app_id'] = $appId;
         $secret = $appService->getSecret();
 
         $notifyOrderInfo = SignTool::generateSignToData($notifyOrderInfo, $secret);
