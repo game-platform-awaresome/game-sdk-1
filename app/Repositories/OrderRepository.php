@@ -6,6 +6,7 @@ use App\Exceptions\Code;
 use App\Exceptions\RenderException;
 use App\Models\Order;
 use App\Traits\OrderRepositoryTrait;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Schema;
@@ -177,7 +178,8 @@ class OrderRepository
     {
         try {
             $this->model->where('order_id', $orderId)->update([
-                'out_order_no' => $outOrderNo
+                'out_order_no' => $outOrderNo,
+                'pay_time' => Carbon::now()->toDateTimeString()
             ]);
         } catch (ModelNotFoundException $exception) {
             throw new RenderException(Code::INVALID_ORDER_ID, 'Invalid ORDER ID');

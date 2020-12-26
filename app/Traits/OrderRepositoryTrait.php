@@ -34,7 +34,7 @@ trait OrderRepositoryTrait
             $table->decimal('callback_amount')->nullable()->comment('回调购买金额');
             $table->unsignedTinyInteger('pay_channel')->nullable()->comment('充值渠道（1：微信 2：支付宝）');
             $table->string('out_order_no', 64)->nullable()->comment('充值流水号（微信或支付宝流水号）');
-            $table->string('pay_time', 32)->nullable()->comment('支付回调时间');
+            $table->timestamp('pay_time', 32)->nullable()->comment('支付回调时间');
             $table->unsignedTinyInteger('status')->comment('订单状态（查看枚举类OrderStatus）');
             $table->timestamps();
         });

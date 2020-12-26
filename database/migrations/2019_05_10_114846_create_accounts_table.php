@@ -23,7 +23,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedTinyInteger('user_type')->comment('用户类型 1：游客 0：正常用户');
             $table->unsignedTinyInteger('os')->comment('注册系统 1: android 2:ios');
             $table->string('device')->comment('注册设备');
-            $table->unsignedTinyInteger('app_id')->comment('注册游戏');
+            $table->unsignedSmallInteger('app_id')->comment('注册游戏');
             $table->char('ip', 24)->comment('注册ip');
             $table->string('token', 512)->nullable()->comment('用户登陆token');
             $table->timestamps();
