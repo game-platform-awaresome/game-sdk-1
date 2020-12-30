@@ -48,6 +48,7 @@
   "Signature Fail": "验证签名不通过",
   "Time Expired": "时间过期",
   "Token Not Provided": "令牌不能为空",
+  "Token Not Found Account": "无法找到该令牌的账号",
   "Authorization Failure": "授权失败",
   "The token has been blacklisted": "令牌已列入黑名单",
   "Invalid ORDER ID": "无效的订单号",

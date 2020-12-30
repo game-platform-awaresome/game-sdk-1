@@ -117,6 +117,8 @@ class AccountController extends Controller
     {
         $param = $request->all();
         $param['ip'] = $request->getClientIp();
+        // 打印旧token
+        Log::channel('sdk')->info('old token: ' . $request->header('Authorization', '?'));
         // 刷新token
         $data = $this->tokenService->tokenRefresh($param);
 

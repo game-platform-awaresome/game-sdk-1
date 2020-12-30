@@ -41,7 +41,7 @@ class JwtAuthToken
                 throw new RenderException(Code::TOKEN_NOT_PROVIDED, 'Token Not Provided');
             }
             if (! $this->auth->parseToken()->authenticate()) {
-                throw new RenderException(Code::INVALID_TOKEN, 'Invalid Token');
+                throw new RenderException(Code::TOKEN_NOT_FOUND_ACCOUNT, 'Token Not Found Account');
             }
         } catch (RenderException $exception) {
             throw new RenderException($exception->getCode(), $exception->getMessage());

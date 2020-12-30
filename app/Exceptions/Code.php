@@ -13,6 +13,7 @@ class Code
     const SIGNATURE_FAIL = 1004;                                    // 验签不通过
     const TOKEN_NOT_PROVIDED = 1005;                                // Token未提供
     const INVALID_TOKEN = 1006;                                     // Token认证失败
+    const TOKEN_NOT_FOUND_ACCOUNT = 1007;                           // Token无法找到账号
     // 1 账户管理、实名管理
     const ACCOUNT_REGISTERED_FAIL = 1010;                           // 账号注册失败
     const PHONE_NUMBER_UNREGISTERED = 1011;                         // 手机号码未注册
