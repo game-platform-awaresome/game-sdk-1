@@ -28,8 +28,15 @@ class AppTableSeeder extends Seeder
 
         App::query()->create([
             'id' => 3,
-            'name' => '幻剑九歌',
+            'name' => '九州幻想',
             'secret' => 'dfdae0de0cbf5424406e259e343a9477',
+            'notify_url' => 'http://b2sdk.cmkjgame.com:13006/Notify/Pay/sdk/998',
+        ]);
+
+        App::query()->create([
+            'id' => 4,
+            'name' => '战灵觉醒',
+            'secret' => '46b3284f23c07c2b6667d0465fa9c4ab',
             'notify_url' => 'http://b2sdk.cmkjgame.com:13006/Notify/Pay/sdk/998',
         ]);
     }

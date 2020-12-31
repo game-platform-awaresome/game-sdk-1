@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
         OrderRepository::migrate('orders_1');
         OrderRepository::migrate('orders_2');
         OrderRepository::migrate('orders_3');
+        OrderRepository::migrate('orders_4');
     }
 
     /**
@@ -29,5 +30,6 @@ class CreateOrdersTable extends Migration
         Schema::dropIfExists('orders_1');
         Schema::dropIfExists('orders_2');
         Schema::dropIfExists('orders_3');
+        Schema::dropIfExists('orders_4');
     }
 }
