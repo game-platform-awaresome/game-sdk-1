@@ -22,7 +22,7 @@ class StringTool
         }
         return $key;
     }
-
+    
     /**
      * 雪花算法
      * 生成open_id

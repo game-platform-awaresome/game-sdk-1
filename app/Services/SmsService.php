@@ -26,6 +26,11 @@ class SmsService
     const uCloudTemplate = 'SIG202011267B7A72';
 
     /**
+     * 短信有效期（单位：分钟） 10分钟
+     */
+    const smsExpireTime = 10;
+
+    /**
      * @var AccountRepository
      */
     protected $accountRepository;
@@ -77,8 +82,8 @@ class SmsService
         $verificationCode = str_pad(random_int(1, 999999), 6, 0, STR_PAD_LEFT);
         // 发送验证码
         $this->store($phone, $verificationCode);
-        // 发送成功后写入缓存Redis
-        Cache::put($cacheKey, ['code' => $verificationCode], now()->addMinutes(10));
+        // 发送成功后写入缓存Redis，有效期为10分钟，在这10分钟内，不应该重新请求发送
+        Cache::put($cacheKey, ['code' => $verificationCode], now()->addMinutes(self::smsExpireTime));
     }
 
     /**

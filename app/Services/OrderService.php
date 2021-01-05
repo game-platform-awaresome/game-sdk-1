@@ -148,11 +148,12 @@ class OrderService
     /**
      * @param string $orderId
      * @param string $payOrderNo
+     * @param int $payChannel
      * @throws RenderException
      */
-    public function updateOutOrderNo(string $orderId, string $payOrderNo)
+    public function updateOutOrderNo(string $orderId, string $payOrderNo, int $payChannel)
     {
-        $this->orderRepository->updateOutOrderNoByOrderId($orderId, $payOrderNo);
+        $this->orderRepository->updateOutOrderNoByOrderId($orderId, $payOrderNo, $payChannel);
     }
 
     /**

@@ -172,13 +172,15 @@ class OrderRepository
     /**
      * @param string $orderId
      * @param string $outOrderNo
+     * @param int $payChannel
      * @throws RenderException
      */
-    public function updateOutOrderNoByOrderId(string $orderId, string $outOrderNo): void
+    public function updateOutOrderNoByOrderId(string $orderId, string $outOrderNo, int $payChannel): void
     {
         try {
             $this->model->where('order_id', $orderId)->update([
                 'out_order_no' => $outOrderNo,
+                'pay_channel' => $payChannel,
                 'pay_time' => Carbon::now()->toDateTimeString()
             ]);
         } catch (ModelNotFoundException $exception) {
