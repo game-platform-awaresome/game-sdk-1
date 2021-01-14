@@ -54,7 +54,7 @@ class AccountController extends Controller
     }
 
     /**
-     * 账户注册
+     * 账户注册&登录
      *
      * @param AccountRequest $request
      * @return \Illuminate\Http\JsonResponse
@@ -65,8 +65,10 @@ class AccountController extends Controller
         $param = $request->all();
         $param['ip'] = $request->getClientIp();
         $this->accountService->accountRegister($param);
+        // 登录
+        $data = $this->tokenService->credentialLogin($param);
 
-        return $this->respJson();
+        return $this->respJson($data);
     }
 
     /**
