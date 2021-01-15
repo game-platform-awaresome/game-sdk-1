@@ -64,6 +64,7 @@ class AccountLoginRepository
                 'os' => $data['os'] ?? Os::Android,
                 'user_type' => $data['user_type'],
                 'device' => $data['device'],
+                'app_id' => $data['app_id'],
                 'ip' => $data['ip'],
             ]);
         } catch (Exception $exception) {
