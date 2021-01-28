@@ -7,6 +7,7 @@ use App\Exceptions\RenderException;
 use Closure;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWTAuth;
 
 class JwtAuthToken
@@ -37,7 +38,7 @@ class JwtAuthToken
     public function handle($request, Closure $next)
     {
         try {
-            if (! $this->auth->parser()->setRequest($request)->hasToken()) {
+            if (! $this->auth->parser()->hasToken()) {
                 throw new RenderException(Code::TOKEN_NOT_PROVIDED, 'Token Not Provided');
             }
             if (! $this->auth->parseToken()->authenticate()) {
@@ -45,10 +46,17 @@ class JwtAuthToken
             }
         } catch (RenderException $exception) {
             throw new RenderException($exception->getCode(), $exception->getMessage());
-        } catch (Exception $exception) {
+        } catch (JWTException $exception) {
+            try {
+                if ($request->routeIs('api.token.refresh') && $token = $this->auth->refresh()) {
+                    $request->merge(['new_token' => $token]);
+                    return $next($request);
+                }
+            } catch (Exception $exception) {
+                throw new RenderException(Code::INVALID_TOKEN, 'Invalid Token');
+            }
             throw new RenderException(Code::INVALID_TOKEN, 'Invalid Token');
         }
-
         return $next($request);
     }
 }

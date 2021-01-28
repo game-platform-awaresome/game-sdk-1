@@ -102,9 +102,12 @@ class TokenService
     public function tokenRefresh(array $data)
     {
         $account = $this->accountRepository->getAccountByOpenId($data['open_id']);
-        // 刷新token
-        $token = $this->refreshToken();
-        $this->accountRepository->updateTokenByOpenId($data['open_id'], $token);
+        $token = $data['token'];
+        // 判断是否有新刷新的new_token，否则使用旧token（new_token有中间件产生）
+        if (isset($data['new_token'])) {
+            $token = $data['new_token'];
+            $this->accountRepository->updateTokenByOpenId($data['open_id'], $token);
+        }
         // 日志记录
         $data['id'] = $account['id'];
         $data['user_type'] = $account['user_type'];

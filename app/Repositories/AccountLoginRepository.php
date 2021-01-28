@@ -2,14 +2,11 @@
 namespace App\Repositories;
 
 use App\Constants\Os;
-use App\Constants\UserType;
 use App\Exceptions\Code;
 use App\Exceptions\RenderException;
 use App\Models\AccountLogin;
 use App\Traits\AccountLoginRepositoryTrait;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 

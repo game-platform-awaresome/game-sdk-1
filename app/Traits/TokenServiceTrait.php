@@ -6,6 +6,7 @@ use App\Exceptions\Code;
 use App\Exceptions\RenderException;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 trait TokenServiceTrait
@@ -52,15 +53,5 @@ trait TokenServiceTrait
         if (JWTAuth::setToken($token)->check()) {
             JWTAuth::setToken($token)->invalidate();
         }
-    }
-
-    /**
-     * refresh token
-     *
-     * @return string
-     */
-    protected function refreshToken() : string
-    {
-        return Auth::guard('api')->refresh();
     }
 }
