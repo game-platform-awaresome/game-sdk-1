@@ -27,4 +27,23 @@ class SignTool
 
         return $data;
     }
+
+    public static function generateWlcSign(array $headers, array $body, string $secret = null)
+    {
+        // 获取密钥
+        $secret = $secret ?? config('services.wlc.app_secret');
+        // 数组合并
+        $arr = $headers;
+        // 排序
+        ksort($arr);
+        // 转换位字符串
+        array_walk($arr, function(&$value, $key) {
+            $value = "{$key}{$value}";
+        });
+        $str = implode('', $arr);
+        // 拼接
+        $body = json_encode($body, JSON_UNESCAPED_SLASHES);
+        $str = $secret . $str . $body;
+        return hash("sha256", $str);
+    }
 }

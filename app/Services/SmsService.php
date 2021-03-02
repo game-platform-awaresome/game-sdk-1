@@ -60,11 +60,11 @@ class SmsService
     public function isPhoneExist(int $smsType, string $phone)
     {
         $exist = $this->accountRepository->isPhoneExist($phone);
-        if ($smsType == SmsType::Bind && $exist) {
+        if ($smsType == SmsType::BIND && $exist) {
             throw new RenderException(Code::PHONE_NUMBER_REGISTERED, 'Phone Number Registered');
-        } else if ($smsType == SmsType::Register && $exist) {
+        } else if ($smsType == SmsType::REGISTER && $exist) {
             throw new RenderException(Code::PHONE_NUMBER_REGISTERED, 'Phone Number Registered');
-        } else if ($smsType == SmsType::FindPassword && !$exist) {
+        } else if ($smsType == SmsType::FIND_PASSWORD && !$exist) {
             throw new RenderException(Code::PHONE_NUMBER_UNREGISTERED, 'Phone Number Unregistered');
         }
     }
@@ -75,7 +75,7 @@ class SmsService
      */
     public function sendVerificationCode(string $phone)
     {
-        $cacheKey = CacheHeader::Phone . $phone;
+        $cacheKey = CacheHeader::PHONE . $phone;
         if (Cache::get($cacheKey)) {
             throw new RenderException(Code::SMS_SENT, 'Sms sent');
         }
@@ -119,7 +119,7 @@ class SmsService
      */
     public function checkVerificationCode(string $phone, string $verificationCode)
     {
-        $cacheKey = CacheHeader::Phone . $phone;
+        $cacheKey = CacheHeader::PHONE . $phone;
         // 缓存比对
         $verifyData = Cache::get($cacheKey);
         if (!$verifyData) {

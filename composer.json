@@ -19,7 +19,8 @@
         "laravel/tinker": "^2.5",
         "overtrue/easy-sms": "^1.2",
         "tymon/jwt-auth": "^1.0",
-        "yansongda/pay": "^2.10"
+        "yansongda/pay": "^2.10",
+        "ext-openssl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

@@ -43,7 +43,7 @@ class AppRepository
     {
         try {
             $appId = $this->appId;
-            return Cache::remember(CacheHeader::AppConfig . $this->appId, $this->ttl, function () use ($appId) {
+            return Cache::remember(CacheHeader::APP_CONFIG . $this->appId, $this->ttl, function () use ($appId) {
                 return $this->model->where('id', $appId)->firstOrFail()->toArray();
             });
         } catch (ModelNotFoundException $exception) {

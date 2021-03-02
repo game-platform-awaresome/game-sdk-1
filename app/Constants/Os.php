@@ -6,6 +6,6 @@ namespace App\Constants;
 
 class Os
 {
-    const Android = 1;
-    const Ios = 2;
+    const ANDROID = 1;
+    const IOS = 2;
 }

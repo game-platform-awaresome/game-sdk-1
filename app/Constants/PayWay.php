@@ -6,6 +6,6 @@ namespace App\Constants;
 
 class PayWay
 {
-    const wechat = 1;
-    const alipay = 2;
+    const WECHAT = 1;
+    const ALIPAY = 2;
 }

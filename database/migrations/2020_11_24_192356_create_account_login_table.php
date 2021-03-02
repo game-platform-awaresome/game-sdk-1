@@ -13,7 +13,7 @@ class CreateAccountLoginTable extends Migration
      */
     public function up()
     {
-        AccountLoginRepository::migrate('account_login_2020');
+        AccountLoginRepository::migrate('account_login_' . getCurrentYear());
     }
 
     /**
@@ -23,6 +23,6 @@ class CreateAccountLoginTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_login_2020');
+        Schema::dropIfExists('account_login_' . getCurrentYear());
     }
 }

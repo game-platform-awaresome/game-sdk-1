@@ -64,6 +64,7 @@
   "ID info does not match": "旧身份证信息与数据库不匹配",
   "ID info does not exist": "身份证信息不存在",
   "Identity Fail": "实名认证失败",
+  "Identifying": "实名认证中，请勿多次提交",
   "Account Update Fail": "账户更新失败",
   "Order database not found, please contact developers.": "未找到订单数据库，请联系开发人员",
   "Order Cannot Repeat": "订单不能重复",

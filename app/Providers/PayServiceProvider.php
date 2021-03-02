@@ -44,7 +44,7 @@ class PayServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ((int)request('pay_way') == PayWay::wechat) {
+        if ((int)request('pay_way') == PayWay::WECHAT) {
             $this->app->bind(PayInterface::class, 'pay.wechat');
         } else {
             $this->app->bind(PayInterface::class, 'pay.alipay');

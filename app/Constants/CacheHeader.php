@@ -6,8 +6,8 @@ namespace App\Constants;
 
 class CacheHeader
 {
-    const AppConfig = 'app_config:';
-    const AlipayConfig = 'alipay_config:';
-    const WechatConfig = 'wechat_config:';
-    const Phone = 'phone_:';
+    const APP_CONFIG = 'app_config:';
+    const ALIPAY_CONFIG = 'alipay_config:';
+    const WECHAT_CONFIG = 'wechat_config:';
+    const PHONE = 'phone_:';
 }

@@ -46,7 +46,7 @@ class AlipayRepository
     {
         try {
             $appId = $this->appId;
-            return Cache::remember(CacheHeader::AlipayConfig . $appId, $this->ttl, function () use ($appId) {
+            return Cache::remember(CacheHeader::ALIPAY_CONFIG . $appId, $this->ttl, function () use ($appId) {
                 return $this->model->where('app_id', $appId)->firstOrFail()->toArray();
             });
         } catch (ModelNotFoundException $exception) {

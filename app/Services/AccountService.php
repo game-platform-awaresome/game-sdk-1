@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Constants\IdentityStatus;
 use App\Constants\SmsType;
 use App\Constants\UserType;
 use App\Exceptions\Code;
@@ -17,11 +18,6 @@ use Illuminate\Support\Facades\Log;
 class AccountService
 {
     /**
-     * @var string
-     */
-    protected $identifyUrl;
-
-    /**
      * @var AccountRepository
      */
     protected $accountRepository;
@@ -36,7 +32,6 @@ class AccountService
      */
     public function __construct()
     {
-        $this->identifyUrl = config('services.identity.url');
         $this->accountRepository = new AccountRepository();
         $this->identityRepository = new IdentityRepository();
     }
@@ -65,7 +60,7 @@ class AccountService
     {
         $data['open_id'] = $this->createOpenId();
         $data['name'] = '用户' . time();
-        $data['user_type'] = UserType::User;
+        $data['user_type'] = UserType::USER;
 
         $this->accountRepository->createAccount($data);
     }
@@ -84,7 +79,7 @@ class AccountService
             $data['name'] = '用户' . time();
             $data['open_id'] = $this->createOpenId();
             $data['password'] = StringTool::randomKey(10);
-            $data['user_type'] = UserType::Visitor;
+            $data['user_type'] = UserType::VISITOR;
             $this->accountRepository->createAccount($data);
             return true;
         } else {
@@ -122,44 +117,4 @@ class AccountService
         $this->accountRepository->updatePasswordByPhone($phone, $newPassword);
     }
 
-    /**
-     * 二要素实名认证
-     *
-     * @param array $data
-     * @return \App\Models\Identity|\Illuminate\Database\Eloquent\Model
-     * @throws RenderException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function identifyIDInfoByTwoFactor(array $data)
-    {
-        if (!HttpTool::identifyTwoFactor($this->identifyUrl, $data)) {
-            throw new RenderException(Code::IDENTIFY_FAIL, 'Identity Fail');
-        }
-        $accountId = $this->accountRepository->getIdByOpenId($data['open_id']);
-        return $this->identityRepository->identity($accountId, $data);
-    }
-
-    /**
-     * @param string $idNumber
-     * @throws RenderException
-     */
-    public function isIdNumberExist(string $idNumber)
-    {
-        if ($this->identityRepository->isIdNumberExist($idNumber)) {
-            throw new RenderException(Code::ID_INFO_ALREADY_EXIST, 'ID number already exist');
-        }
-    }
-
-    /**
-     * @param array $data
-     * @throws RenderException
-     */
-    public function checkOldIdentityMatch(array $data)
-    {
-        $accountId = $this->accountRepository->getIdByOpenId($data['open_id']);
-        if (!$this->identityRepository->isIdNumberAndIdNameExistByAccountId($accountId, $data['old_id_number'], $data['old_id_name'])) {
-            Log::channel('sdk')->info('旧身份证信息与数据库不匹配');
-            throw new RenderException(Code::ID_INFO_DOES_NOT_MATCH, 'ID info does not match');
-        }
-    }
 }

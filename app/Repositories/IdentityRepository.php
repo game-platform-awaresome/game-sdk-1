@@ -83,16 +83,23 @@ class IdentityRepository
     public function identity(int $accountId, array $data)
     {
         try {
-            $year = substr($data['id_number'], 6, 4);
-            $month = substr($data['id_number'], 10, 2);
-            $day = substr($data['id_number'], 12, 2);
+            // 默认值
+            $birthday = null;
+            if (!$data['id_number']) {
+                $year = substr($data['id_number'], 6, 4);
+                $month = substr($data['id_number'], 10, 2);
+                $day = substr($data['id_number'], 12, 2);
+                $birthday = $year . '-' . $month . '-' . $day;
+            }
 
             return $this->model->updateOrCreate([
                 'account_id' => $accountId,
             ],[
+                'pi' => $data['pi'],
                 'id_number' => CryptTool::encrypt($data['id_number']),
                 'id_name' => CryptTool::encrypt($data['id_name']),
-                'birthday' => $year . '-' . $month . '-' . $day
+                'birthday' => $birthday,
+                'status' => $data['status']
             ]);
         } catch (Exception $exception) {
             Log::channel('sdk')->error($exception->getMessage());

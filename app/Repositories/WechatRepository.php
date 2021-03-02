@@ -46,7 +46,7 @@ class WechatRepository
     {
         try {
             $appId = $this->appId;
-            return Cache::remember(CacheHeader::WechatConfig . $appId, $this->ttl, function () use ($appId) {
+            return Cache::remember(CacheHeader::WECHAT_CONFIG . $appId, $this->ttl, function () use ($appId) {
                 return $this->model->where('app_id', $appId)->firstOrFail()->toArray();
             });
         } catch (ModelNotFoundException $exception) {

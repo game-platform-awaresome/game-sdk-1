@@ -58,7 +58,7 @@ class AccountLoginRepository
         try {
             return $this->model->create([
                 'account_id' => $data['id'],
-                'os' => $data['os'] ?? Os::Android,
+                'os' => $data['os'] ?? Os::ANDROID,
                 'user_type' => $data['user_type'],
                 'device' => $data['device'],
                 'app_id' => $data['app_id'],

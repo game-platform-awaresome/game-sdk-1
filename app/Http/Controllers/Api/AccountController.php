@@ -7,6 +7,8 @@ use App\Exceptions\RenderException;
 use App\Http\Requests\AccountRequest;
 use App\Repositories\IdentityRepository;
 use App\Services\AccountService;
+use App\Services\AppService;
+use App\Services\IdentityService;
 use App\Services\TokenService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -24,6 +26,16 @@ class AccountController extends Controller
     protected $tokenService;
 
     /**
+     * @var IdentityService
+     */
+    protected $identityService;
+
+    /**
+     * @var AppService
+     */
+    protected $appService;
+
+    /**
      * AccountController constructor.
      * @param AccountService $accountService
      * @param TokenService $tokenService
@@ -32,6 +44,8 @@ class AccountController extends Controller
     {
         $this->accountService = $accountService;
         $this->tokenService = $tokenService;
+        $this->identityService = new IdentityService();
+        $this->appService = new AppService((int)request('app_id'));
     }
 
     /**
@@ -155,9 +169,11 @@ class AccountController extends Controller
     {
         $param = $request->all();
         // 判断身份证号是否已存在
-        $this->accountService->isIdNumberExist($param['id_number']);
-        // 二要素实名认证
-        $identity = $this->accountService->identifyIDInfoByTwoFactor($param)->toArray();
+        $this->identityService->isIdNumberExist($param['id_number']);
+        // 获取biz_id
+        $param['biz_id'] = $this->appService->getBizId();
+        // 实名认证
+        $identity = $this->identityService->identify($param)->toArray();
 
         return $this->respJson($identity);
     }
@@ -173,13 +189,14 @@ class AccountController extends Controller
     public function changeIdentity(AccountRequest $request)
     {
         $param = $request->all();
-
         // 判断新身份证号是否已存在
-        $this->accountService->isIdNumberExist($param['id_number']);
+        $this->identityService->isIdNumberExist($param['id_number']);
         // 判断旧身份证信息是否匹配
-        $this->accountService->checkOldIdentityMatch($param);
-        // 二要素实名认证
-        $identity = $this->accountService->identifyIDInfoByTwoFactor($param)->toArray();
+        $this->identityService->checkOldIdentityMatch($param);
+        // 获取biz_id
+        $param['biz_id'] = $this->appService->getBizId();
+        // 实名认证
+        $identity = $this->identityService->identify($param)->toArray();
 
         return $this->respJson($identity);
     }

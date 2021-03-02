@@ -22,6 +22,16 @@ class StringTool
         }
         return $key;
     }
+
+    /**
+     * @return string
+     */
+    public static function microtime()
+    {
+        [$usec, $sec] = explode(" ", microtime());
+        $time = (float)sprintf('%.0f',(floatval($sec)+floatval($usec))*1000);
+        return (int)$time;
+    }
     
     /**
      * 雪花算法

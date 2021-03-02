@@ -44,8 +44,8 @@ class AppService
      * @return mixed
      * @throws RenderException
      */
-    public function getNotifyKey()
+    public function getBizId()
     {
-        return $this->appRepository->getApp()['secret'];
+        return $this->appRepository->getApp()['biz_id'];
     }
 }

@@ -15,6 +15,10 @@ class CryptTool
      */
     public static function encrypt($string, $key = 'crypt')
     {
+        if (!$string) {
+            return null;
+        }
+
         $result = self::crypt(substr(md5($string . $key), 0, 8) . $string, $key);
 
         return str_replace('=', '', base64_encode($result));
@@ -65,5 +69,20 @@ class CryptTool
         }
 
         return $result;
+    }
+
+    public static function aes128gcm(array $data, string $secret = null)
+    {
+        // 获取密钥
+        $secret = $secret ?? config('services.wlc.app_secret');
+        // 将secret转成ASC码
+        $secret = hex2bin($secret);
+        // 将data转为字符串
+        $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $cipher = "aes-128-gcm";
+        $iv_len = openssl_cipher_iv_length($cipher);
+        $iv = openssl_random_pseudo_bytes($iv_len);
+        $encrypt = openssl_encrypt($data, $cipher, $secret, OPENSSL_RAW_DATA, $iv,$tag);
+        return base64_encode(($iv.$encrypt.$tag));
     }
 }

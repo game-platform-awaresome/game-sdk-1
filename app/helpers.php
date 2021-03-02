@@ -87,3 +87,16 @@ if (!function_exists('arrayToXml')) {
         return $xml;
     }
 }
+
+/**
+ * xml转数组
+ *
+ * @return array
+ */
+if (!function_exists('getCurrentYear')) {
+
+    function getCurrentYear()
+    {
+        return date('Y');
+    }
+}

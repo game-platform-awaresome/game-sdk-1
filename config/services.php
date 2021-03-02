@@ -30,8 +30,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'identity' => [
-        'url' => 'https://way.jd.com/hangzhoushumaikeji/idcard_checkForCloud?appkey=c0ce743520803ef66d740fa92ad38002'
+    'wlc' => [
+        'app_id' => env('WLC_APP_ID'),
+        'app_secret' => env('WLC_APP_SECRET'),
+        'identity_url' => 'https://wlc.nppa.gov.cn/test/authentication/check',
+        'identity_query_url' => 'http://wlc.nppa.gov.cn/test/authentication/query',
+        'loginout_url' => 'http://wlc.nppa.gov.cn/test/collection/loginout'
     ]
 
 ];

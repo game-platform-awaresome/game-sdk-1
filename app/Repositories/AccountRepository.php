@@ -208,7 +208,7 @@ class AccountRepository
         try {
             return $this->model->where('phone', $phone)->update([
                 'uuid' => null,
-                'user_type' => UserType::User
+                'user_type' => UserType::USER
             ]);
         } catch (ModelNotFoundException $exception) {
             throw new RenderException(Code::INVALID_UUID, 'Invalid UUID');
@@ -301,8 +301,8 @@ class AccountRepository
                 'name' => $data['name'] ?? $data['open_id'],
                 'phone' => $data['phone'],
                 'password' => Hash::make($data['password']),
-                'os' => $data['os'] ?? Os::Android,
-                'user_type' => $data['user_type'] ?? UserType::User,
+                'os' => $data['os'] ?? Os::ANDROID,
+                'user_type' => $data['user_type'] ?? UserType::USER,
                 'device' => $data['device'],
                 'app_id' => $data['app_id'],
                 'ip' => $data['ip'],

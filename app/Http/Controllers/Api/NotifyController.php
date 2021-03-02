@@ -46,7 +46,7 @@ class NotifyController extends Controller
             // 校验金额
             $orderService->checkCallbackAmount($orderId, $param['total_fee'] / 100);
             // 更新支付流水号
-            $orderService->updateOutOrderNo($orderId, $param['transaction_id'], PayWay::wechat);
+            $orderService->updateOutOrderNo($orderId, $param['transaction_id'], PayWay::WECHAT);
             // 获取回调信息并发送
             $this->callback($orderService, $appId, $orderId);
             // 返回结果
@@ -87,7 +87,7 @@ class NotifyController extends Controller
             // 校验金额
             $orderService->checkCallbackAmount($orderId, $param['total_amount']);
             // 更新支付流水号
-            $orderService->updateOutOrderNo($orderId, $param['trade_no'], PayWay::alipay);
+            $orderService->updateOutOrderNo($orderId, $param['trade_no'], PayWay::ALIPAY);
             // 获取回调信息并发送
             $this->callback($orderService, $appId, $orderId);
             // 返回结果

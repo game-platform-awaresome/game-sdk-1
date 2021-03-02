@@ -30,6 +30,7 @@ class Code
     const ID_INFO_DOES_NOT_MATCH = 1022;                            // 旧身份证信息与数据库不匹配
     const IDENTIFY_FAIL = 1023;                                     // 实名认证失败
     const ID_INFO_DOES_NOT_EXIST = 1024;                            // 旧身份证信息未找到
+    const IDENTIFY_ING = 1025;                                      // 实名认证中
     // 1 游戏管理
     const INVALID_APP_ID = 1030;                                    // 无效的APPID
     // 1 订单管理

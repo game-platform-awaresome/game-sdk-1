@@ -15,9 +15,11 @@ use Illuminate\Support\Facades\Crypt;
  *
  * @property int $id
  * @property int $account_id 账号表主键
+ * @property string $pi 国家防沉迷体系用户唯一标识
  * @property string $id_number 身份证号
  * @property string $id_name 身份证名字
  * @property string $birthday 身份证生日
+ * @property int $status 认证状态
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read mixed $age
