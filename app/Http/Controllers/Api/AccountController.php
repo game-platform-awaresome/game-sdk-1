@@ -44,8 +44,7 @@ class AccountController extends Controller
     {
         $this->accountService = $accountService;
         $this->tokenService = $tokenService;
-        $this->identityService = new IdentityService();
-        $this->appService = new AppService((int)request('app_id'));
+        $this->identityService = new IdentityService((int)request('app_id'));
     }
 
     /**
@@ -67,8 +66,28 @@ class AccountController extends Controller
         return $this->respJson($data);
     }
 
+
     /**
-     * 账户注册&登录
+     * 游客绑定
+     *
+     * @param AccountRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws RenderException
+     */
+    public function visitorBind(AccountRequest $request)
+    {
+        $param = $request->all();
+        $param['ip'] = $request->getClientIp();
+        // 进行绑定，将游客账号升级成正常用户 user_type = 0，uuid=null
+        $this->accountService->visitorBind($param);
+        // 登录
+        $data = $this->tokenService->credentialLogin($param);
+
+        return $this->respJson($data);
+    }
+
+    /**
+     * 账户注册 免输入直接登录
      *
      * @param AccountRequest $request
      * @return \Illuminate\Http\JsonResponse
@@ -91,36 +110,19 @@ class AccountController extends Controller
      * @param AccountRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws RenderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function accountLogin(AccountRequest $request)
     {
         $param = $request->all();
         $param['ip'] = $request->getClientIp();
+        // 实名认证结果查询
+        $this->identityService->identifyQuery($param);
         // 登录
         $data = $this->tokenService->credentialLogin($param);
 
         return $this->respJson($data);
     }
-
-    /**
-     * 游客绑定
-     *
-     * @param AccountRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws RenderException
-     */
-    public function visitorBind(AccountRequest $request)
-    {
-        $param = $request->all();
-        $param['ip'] = $request->getClientIp();
-        // 进行绑定，将游客账号升级成正常用户 user_type = 0，uuid=null
-        $this->accountService->visitorBind($param);
-        // 登录
-        $data = $this->tokenService->credentialLogin($param);
-
-        return $this->respJson($data);
-    }
-
 
     /**
      * token刷新(Header 需要 Bearer auth认证）
@@ -128,6 +130,7 @@ class AccountController extends Controller
      * @param AccountRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws RenderException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function tokenRefresh(AccountRequest $request)
     {
@@ -135,6 +138,8 @@ class AccountController extends Controller
         $param['ip'] = $request->getClientIp();
         $param['token'] = $request->header('Authorization');
         $param['token'] = strstr(' ', $param['token']) ? : explode(' ', $param['token'])[1];
+        // 实名认证结果查询
+        $this->identityService->identifyQuery($param);
         // 刷新token
         $data = $this->tokenService->tokenRefresh($param);
 
@@ -170,8 +175,6 @@ class AccountController extends Controller
         $param = $request->all();
         // 判断身份证号是否已存在
         $this->identityService->isIdNumberExist($param['id_number']);
-        // 获取biz_id
-        $param['biz_id'] = $this->appService->getBizId();
         // 实名认证
         $identity = $this->identityService->identify($param)->toArray();
 
@@ -193,10 +196,8 @@ class AccountController extends Controller
         $this->identityService->isIdNumberExist($param['id_number']);
         // 判断旧身份证信息是否匹配
         $this->identityService->checkOldIdentityMatch($param);
-        // 获取biz_id
-        $param['biz_id'] = $this->appService->getBizId();
         // 实名认证
-        $identity = $this->identityService->identify($param)->toArray();
+        $identity = $this->identityService->identify($param, false)->toArray();
 
         return $this->respJson($identity);
     }

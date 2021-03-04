@@ -43,18 +43,26 @@ class Identity extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['age'];
+    protected $appends = ['replace_id_number', 'replace_id_name', 'age'];
 
     public function getIdNumberAttribute($value)
     {
-        $value = CryptTool::decrypt($value);
-        return StringTool::idNumberReplace($value);
+        return CryptTool::decrypt($value);
+    }
+
+    public function getReplaceIdNumberAttribute()
+    {
+        return StringTool::idNumberReplace($this->id_number);
     }
 
     public function getIdNameAttribute($value)
     {
-        $value = CryptTool::decrypt($value);
-        return StringTool::idNameReplace($value);
+        return CryptTool::decrypt($value);
+    }
+
+    public function getReplaceIdNameAttribute()
+    {
+        return StringTool::idNumberReplace($this->id_name);
     }
 
     public function getAgeAttribute()

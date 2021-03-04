@@ -39,13 +39,4 @@ class AppService
     {
         return $this->appRepository->getApp()['secret'];
     }
-
-    /**
-     * @return mixed
-     * @throws RenderException
-     */
-    public function getBizId()
-    {
-        return $this->appRepository->getApp()['biz_id'];
-    }
 }

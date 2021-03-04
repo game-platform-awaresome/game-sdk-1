@@ -34,8 +34,7 @@ return [
         'app_id' => env('WLC_APP_ID'),
         'app_secret' => env('WLC_APP_SECRET'),
         'identity_url' => 'https://wlc.nppa.gov.cn/test/authentication/check',
-        'identity_query_url' => 'http://wlc.nppa.gov.cn/test/authentication/query',
-        'loginout_url' => 'http://wlc.nppa.gov.cn/test/collection/loginout'
+        'identity_query_url' => 'https://wlc.nppa.gov.cn/test/authentication/query',
     ]
 
 ];

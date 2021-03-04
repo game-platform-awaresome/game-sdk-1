@@ -85,7 +85,7 @@ class IdentityRepository
         try {
             // 默认值
             $birthday = null;
-            if (!$data['id_number']) {
+            if ($data['id_number']) {
                 $year = substr($data['id_number'], 6, 4);
                 $month = substr($data['id_number'], 10, 2);
                 $day = substr($data['id_number'], 12, 2);
