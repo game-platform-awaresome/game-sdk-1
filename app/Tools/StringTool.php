@@ -51,6 +51,9 @@ class StringTool
      */
     public static function idNumberReplace(string $idNumber)
     {
+        if (!$idNumber) {
+            return "";
+        }
         return substr_replace($idNumber,'***********',3,11);
     }
 
@@ -60,6 +63,10 @@ class StringTool
      */
     public static function idNameReplace(string $idName)
     {
+        if (!$idName) {
+            return "";
+        }
+
         $strLen = mb_strlen($idName, 'utf-8');
         $firstStr = mb_substr($idName, 0, 1, 'utf-8');
         $lastStr = mb_substr($idName, -1, 1, 'utf-8');

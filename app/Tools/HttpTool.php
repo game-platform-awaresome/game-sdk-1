@@ -66,7 +66,6 @@ class HttpTool
             $client = new Client(['timeout' => 5.0]);
             // headers补充Content-Type
             $headers['Content-Type'] = 'application/json';
-//            dd(json_encode($headers, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES), json_encode($body, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
             // 根据get或post请求选择提交方式
             switch ($method) {
                 case 'get':

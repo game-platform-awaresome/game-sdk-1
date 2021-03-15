@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Crypt;
  * @property string $pi 国家防沉迷体系用户唯一标识
  * @property string $id_number 身份证号
  * @property string $id_name 身份证名字
+ * @property string $replace_id_number 隐藏身份证号
+ * @property string $replace_id_name 隐藏身份证名字
  * @property string $birthday 身份证生日
  * @property int $status 认证状态
  * @property Carbon|null $created_at
@@ -62,7 +64,7 @@ class Identity extends Model
 
     public function getReplaceIdNameAttribute()
     {
-        return StringTool::idNumberReplace($this->id_name);
+        return StringTool::idNameReplace($this->id_name);
     }
 
     public function getAgeAttribute()

@@ -8,7 +8,7 @@ use App\Http\Requests\AccountRequest;
 use App\Repositories\IdentityRepository;
 use App\Services\AccountService;
 use App\Services\AppService;
-use App\Services\IdentityService;
+use App\Services\WlcService;
 use App\Services\TokenService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -26,25 +26,21 @@ class AccountController extends Controller
     protected $tokenService;
 
     /**
-     * @var IdentityService
+     * @var WlcService
      */
-    protected $identityService;
-
-    /**
-     * @var AppService
-     */
-    protected $appService;
+    protected $wlcService;
 
     /**
      * AccountController constructor.
      * @param AccountService $accountService
      * @param TokenService $tokenService
+     * @throws RenderException
      */
     public function __construct(AccountService $accountService, TokenService $tokenService)
     {
         $this->accountService = $accountService;
         $this->tokenService = $tokenService;
-        $this->identityService = new IdentityService((int)request('app_id'));
+        $this->wlcService = new WlcService((int)request('app_id'));
     }
 
     /**
@@ -117,7 +113,7 @@ class AccountController extends Controller
         $param = $request->all();
         $param['ip'] = $request->getClientIp();
         // 实名认证结果查询
-        $this->identityService->identifyQuery($param);
+        $this->wlcService->identifyQuery($param);
         // 登录
         $data = $this->tokenService->credentialLogin($param);
 
@@ -139,7 +135,7 @@ class AccountController extends Controller
         $param['token'] = $request->header('Authorization');
         $param['token'] = strstr(' ', $param['token']) ? : explode(' ', $param['token'])[1];
         // 实名认证结果查询
-        $this->identityService->identifyQuery($param);
+        $this->wlcService->identifyQuery($param);
         // 刷新token
         $data = $this->tokenService->tokenRefresh($param);
 
@@ -174,9 +170,9 @@ class AccountController extends Controller
     {
         $param = $request->all();
         // 判断身份证号是否已存在
-        $this->identityService->isIdNumberExist($param['id_number']);
+        $this->wlcService->isIdNumberExist($param['id_number']);
         // 实名认证
-        $identity = $this->identityService->identify($param)->toArray();
+        $identity = $this->wlcService->identify($param);
 
         return $this->respJson($identity);
     }
@@ -193,11 +189,11 @@ class AccountController extends Controller
     {
         $param = $request->all();
         // 判断新身份证号是否已存在
-        $this->identityService->isIdNumberExist($param['id_number']);
+        $this->wlcService->isIdNumberExist($param['id_number']);
         // 判断旧身份证信息是否匹配
-        $this->identityService->checkOldIdentityMatch($param);
+        $this->wlcService->checkOldIdentityMatch($param);
         // 实名认证
-        $identity = $this->identityService->identify($param, false)->toArray();
+        $identity = $this->wlcService->identify($param);
 
         return $this->respJson($identity);
     }

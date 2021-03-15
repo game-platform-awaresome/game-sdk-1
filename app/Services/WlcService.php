@@ -17,7 +17,7 @@ use App\Tools\StringTool;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
-class IdentityService
+class WlcService
 {
     /**
      * 认证失败次数（单位：次）
@@ -80,7 +80,7 @@ class IdentityService
      * 首次实名认证 和 更换实名认证
      *
      * @param array $data
-     * @return \App\Models\Identity|\Illuminate\Database\Eloquent\Model
+     * @return \App\Models\Identity|array|\Illuminate\Database\Eloquent\Model
      * @throws RenderException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -105,7 +105,7 @@ class IdentityService
             throw new RenderException(Code::IDENTIFY_ING, 'Identifying');
         }
 
-        $identityResult = $this->wlcIdentity($data);
+        $identityResult = $this->wlcAuthenticationCheck($data);
         if (!$identityResult) {
             throw new RenderException(Code::IDENTIFY_FAIL, 'Identity Fail');
         }
@@ -115,7 +115,14 @@ class IdentityService
             // 更新状态
             $data['pi'] = $identityResult['pi'];
             $data['status'] = $identityResult['status'];
-            return $this->identityRepository->identity($accountId, $data);
+            // 隐藏真实姓名
+            $result = $this->identityRepository->identity($accountId, $data);
+            $result->addHidden(['replace_id_number', 'replace_id_name']);
+            $resultArray = $result->toArray();
+            // 覆盖和隐藏真实姓名
+            $resultArray['id_number'] = $result->replace_id_number;
+            $resultArray['id_name'] = $result->replace_id_name;
+            return $resultArray;
         } else {
             // 认证失败 记录次数
             if (!$identityFailFreq) {
@@ -152,7 +159,7 @@ class IdentityService
         if ($identity && $identity['status'] == IdentityStatus::AUTHING) {
             $identity = $identity->toArray();
             // 发起认证结果查询
-            if ($identityQueryResult = $this->wlcIdentityQuery($data)) {
+            if ($identityQueryResult = $this->wlcAuthenticationQuery($data)) {
                 // 认证成功/失败
                 // 还处于认证中，不处理
                 switch ($identityQueryResult['status']) {
@@ -176,6 +183,8 @@ class IdentityService
     }
 
     /**
+     *
+     *
      * @param string $idNumber
      * @throws RenderException
      */
@@ -187,6 +196,8 @@ class IdentityService
     }
 
     /**
+     * 检查数据库旧身份证号码是否匹配
+     *
      * @param array $data
      * @throws RenderException
      */
@@ -200,16 +211,19 @@ class IdentityService
     }
 
     /**
+     * 实名认证接口
+     * 参数整理
+     *
      * @param array $data
      * @return bool|string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function wlcIdentity(array $data)
+    protected function wlcAuthenticationCheck(array $data)
     {
         // 地址
-        $url = config('services.wlc.identity_url');
-        // 原始报文体/加密报文体 TODO 替换成open_id
-        $body = ['ai' => '200000000000000001', 'name' => $data['id_name'], 'idNum' => $data['id_number']];
+        $url = config('services.wlc.authentication_check_url');
+        // 原始报文体/加密报文体
+        $body = ['ai' => $data['open_id'], 'name' => $data['id_name'], 'idNum' => $data['id_number']];
         $body = ['data' => CryptTool::aes128gcm($body)];
         // 报文头
         $headers = ['appId' => $this->wlcAppId, 'bizId' => $this->bizId, 'timestamps' => StringTool::microtime()];
@@ -220,16 +234,19 @@ class IdentityService
     }
 
     /**
+     * 实名认证查询接口
+     * 参数整理
+     *
      * @param array $data
      * @return bool|string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function wlcIdentityQuery(array $data)
+    protected function wlcAuthenticationQuery(array $data)
     {
         // 地址
-        $url = config('services.wlc.identity_query_url');
-        // 查询字符串 TODO 替换成open_id
-        $query = ['ai' => '100000000000000002'];
+        $url = config('services.wlc.authentication_query_url');
+        // 查询字符串
+        $query = ['ai' => $data['open_id']];
         // 报文头
         $headers = ['appId' => $this->wlcAppId, 'bizId' => $this->bizId, 'timestamps' => StringTool::microtime()];
         // 报文头生成签名
